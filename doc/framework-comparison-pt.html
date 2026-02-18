@@ -1,0 +1,1566 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Comparação de Frameworks de Agentes de IA - Sua Mercearia</title>
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #12121a;
+    --surface2: #1a1a2e;
+    --border: #2a2a3e;
+    --text: #e4e4ef;
+    --text-dim: #8888a0;
+    --accent: #6c63ff;
+    --accent2: #00d4aa;
+    --accent3: #ff6b9d;
+    --accent4: #ffa726;
+    --accent5: #42a5f5;
+    --accent6: #ab47bc;
+    --accent7: #ef5350;
+    --accent8: #66bb6a;
+    --accent9: #78909c;
+    --gradient1: linear-gradient(135deg, #6c63ff, #00d4aa);
+    --gradient2: linear-gradient(135deg, #ff6b9d, #ffa726);
+    --gradient3: linear-gradient(135deg, #42a5f5, #ab47bc);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--bg); color:var(--text); font-family:'Inter',-apple-system,BlinkMacSystemFont,system-ui,sans-serif; line-height:1.6; }
+
+  /* Typography */
+  h1 { font-size:3rem; font-weight:800; letter-spacing:-0.03em; }
+  h2 { font-size:2rem; font-weight:700; letter-spacing:-0.02em; }
+  h3 { font-size:1.35rem; font-weight:600; }
+  h4 { font-size:1.1rem; font-weight:600; }
+
+  /* Layout */
+  .container { max-width:1400px; margin:0 auto; padding:0 2rem; }
+  section { padding:5rem 0; }
+
+  /* Hero */
+  .hero { text-align:center; padding:6rem 2rem 4rem; position:relative; overflow:hidden; }
+  .hero::before { content:''; position:absolute; top:-50%; left:-50%; width:200%; height:200%; background:radial-gradient(circle at 30% 50%, rgba(108,99,255,0.08) 0%, transparent 50%), radial-gradient(circle at 70% 50%, rgba(0,212,170,0.06) 0%, transparent 50%); }
+  .hero h1 { position:relative; background:var(--gradient1); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; margin-bottom:1rem; }
+  .hero p { position:relative; font-size:1.25rem; color:var(--text-dim); max-width:700px; margin:0 auto 2rem; }
+  .hero .stats { display:flex; gap:3rem; justify-content:center; position:relative; flex-wrap:wrap; }
+  .hero .stat { text-align:center; }
+  .hero .stat-num { font-size:2.5rem; font-weight:800; background:var(--gradient1); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+  .hero .stat-label { font-size:0.85rem; color:var(--text-dim); text-transform:uppercase; letter-spacing:0.1em; }
+
+  /* Navigation Tabs */
+  .nav-tabs { display:flex; gap:0.5rem; justify-content:center; flex-wrap:wrap; padding:1rem 2rem; position:sticky; top:0; z-index:100; background:rgba(10,10,15,0.9); backdrop-filter:blur(20px); border-bottom:1px solid var(--border); }
+  .nav-tab { padding:0.6rem 1.2rem; border-radius:2rem; border:1px solid var(--border); background:transparent; color:var(--text-dim); cursor:pointer; font-size:0.85rem; font-weight:500; transition:all 0.3s; }
+  .nav-tab:hover, .nav-tab.active { background:var(--accent); color:#fff; border-color:var(--accent); }
+
+  /* Framework Cards */
+  .frameworks-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(380px, 1fr)); gap:1.5rem; }
+  .fw-card { background:var(--surface); border:1px solid var(--border); border-radius:1rem; overflow:hidden; transition:all 0.3s; }
+  .fw-card:hover { border-color:var(--accent); transform:translateY(-2px); box-shadow:0 8px 32px rgba(108,99,255,0.15); }
+  .fw-card-header { padding:1.5rem; display:flex; align-items:center; gap:1rem; border-bottom:1px solid var(--border); }
+  .fw-icon { width:48px; height:48px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:1.5rem; font-weight:800; color:#fff; flex-shrink:0; }
+  .fw-card-header h3 { flex:1; }
+  .fw-card-header .fw-lang { font-size:0.75rem; padding:0.2rem 0.6rem; border-radius:1rem; background:var(--surface2); color:var(--text-dim); }
+  .fw-card-body { padding:1.5rem; }
+  .fw-card-body p { color:var(--text-dim); font-size:0.9rem; margin-bottom:1rem; }
+  .fw-tags { display:flex; flex-wrap:wrap; gap:0.4rem; margin-bottom:1rem; }
+  .fw-tag { font-size:0.7rem; padding:0.15rem 0.5rem; border-radius:1rem; border:1px solid; opacity:0.8; }
+  .fw-metrics { display:grid; grid-template-columns:repeat(3,1fr); gap:0.75rem; }
+  .fw-metric { text-align:center; padding:0.5rem; background:var(--surface2); border-radius:0.5rem; }
+  .fw-metric-val { font-size:1.1rem; font-weight:700; }
+  .fw-metric-label { font-size:0.65rem; color:var(--text-dim); text-transform:uppercase; letter-spacing:0.05em; }
+
+  /* Concept Shopping Section */
+  .shopping-section { background:var(--surface); border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
+  .shopping-section h2 { text-align:center; margin-bottom:0.5rem; }
+  .shopping-subtitle { text-align:center; color:var(--text-dim); margin-bottom:3rem; font-size:1.05rem; }
+
+  .aisle { margin-bottom:3rem; }
+  .aisle-header { display:flex; align-items:center; gap:0.75rem; margin-bottom:1.25rem; padding-bottom:0.75rem; border-bottom:2px solid var(--border); }
+  .aisle-icon { font-size:1.5rem; }
+  .aisle-header h3 { flex:1; }
+  .aisle-header .aisle-count { font-size:0.8rem; color:var(--text-dim); background:var(--surface2); padding:0.2rem 0.7rem; border-radius:1rem; }
+
+  .items-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:1rem; }
+  .item-card { background:var(--surface2); border:1px solid var(--border); border-radius:0.75rem; padding:1rem; cursor:pointer; transition:all 0.3s; position:relative; }
+  .item-card:hover { border-color:var(--accent2); }
+  .item-card.selected { border-color:var(--accent2); background:rgba(0,212,170,0.05); }
+  .item-card.selected::after { content:'\2713'; position:absolute; top:0.75rem; right:0.75rem; width:24px; height:24px; background:var(--accent2); color:#000; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.8rem; font-weight:700; }
+  .item-name { font-weight:600; font-size:0.95rem; margin-bottom:0.3rem; }
+  .item-desc { font-size:0.8rem; color:var(--text-dim); margin-bottom:0.5rem; }
+  .item-sources { display:flex; gap:0.3rem; flex-wrap:wrap; }
+  .item-source { font-size:0.65rem; padding:0.1rem 0.4rem; border-radius:0.3rem; font-weight:600; }
+
+  /* Comparison Table */
+  .comparison-table-wrap { overflow-x:auto; border-radius:1rem; border:1px solid var(--border); }
+  table { width:100%; border-collapse:collapse; font-size:0.85rem; }
+  thead th { background:var(--surface2); padding:1rem 0.75rem; text-align:left; font-weight:600; position:sticky; top:0; white-space:nowrap; border-bottom:2px solid var(--border); }
+  thead th:first-child { min-width:160px; }
+  tbody td { padding:0.75rem; border-bottom:1px solid var(--border); vertical-align:top; }
+  tbody tr:hover { background:rgba(108,99,255,0.03); }
+  tbody td:first-child { font-weight:600; color:var(--accent); white-space:nowrap; }
+  .cell-yes { color:var(--accent2); font-weight:600; }
+  .cell-no { color:var(--text-dim); opacity:0.4; }
+  .cell-partial { color:var(--accent4); }
+  .cell-best { background:rgba(0,212,170,0.08); color:var(--accent2); font-weight:600; }
+
+  /* Architecture Diagrams */
+  .arch-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(420px, 1fr)); gap:1.5rem; }
+  .arch-card { background:var(--surface); border:1px solid var(--border); border-radius:1rem; overflow:hidden; }
+  .arch-card-header { padding:1rem 1.5rem; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:0.75rem; }
+  .arch-card-header h4 { flex:1; }
+  .arch-body { padding:1.5rem; }
+  .arch-diagram { background:var(--bg); border-radius:0.5rem; padding:1.25rem; font-family:'SF Mono','Fira Code',monospace; font-size:0.72rem; line-height:1.5; color:var(--text-dim); overflow-x:auto; white-space:pre; }
+  .arch-diagram .highlight { color:var(--accent); font-weight:600; }
+  .arch-diagram .highlight2 { color:var(--accent2); font-weight:600; }
+  .arch-diagram .highlight3 { color:var(--accent3); font-weight:600; }
+
+  /* Shopping Cart */
+  .cart { position:fixed; bottom:2rem; right:2rem; z-index:200; }
+  .cart-btn { width:64px; height:64px; border-radius:50%; background:var(--gradient1); border:none; color:#fff; font-size:1.5rem; cursor:pointer; box-shadow:0 4px 24px rgba(108,99,255,0.4); transition:all 0.3s; display:flex; align-items:center; justify-content:center; }
+  .cart-btn:hover { transform:scale(1.1); }
+  .cart-count { position:absolute; top:-4px; right:-4px; width:24px; height:24px; background:var(--accent3); color:#fff; border-radius:50%; font-size:0.75rem; font-weight:700; display:flex; align-items:center; justify-content:center; }
+  .cart-panel { position:fixed; bottom:0; right:0; width:420px; max-height:80vh; background:var(--surface); border:1px solid var(--border); border-radius:1rem 0 0 0; overflow-y:auto; transform:translateX(100%); transition:transform 0.3s; z-index:201; }
+  .cart-panel.open { transform:translateX(0); }
+  .cart-panel-header { padding:1.25rem; border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; background:var(--surface); }
+  .cart-panel-header h3 { background:var(--gradient1); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+  .cart-close { background:none; border:none; color:var(--text-dim); font-size:1.5rem; cursor:pointer; }
+  .cart-items { padding:1rem; }
+  .cart-item { display:flex; align-items:center; gap:0.75rem; padding:0.5rem; border-bottom:1px solid var(--border); }
+  .cart-item-name { flex:1; font-size:0.85rem; }
+  .cart-item-remove { background:none; border:none; color:var(--accent7); cursor:pointer; font-size:0.8rem; }
+  .cart-export { padding:1rem; border-top:1px solid var(--border); position:sticky; bottom:0; background:var(--surface); }
+  .cart-export button { width:100%; padding:0.75rem; background:var(--gradient1); color:#fff; border:none; border-radius:0.5rem; font-weight:600; cursor:pointer; font-size:0.9rem; }
+  .cart-empty { padding:2rem; text-align:center; color:var(--text-dim); }
+
+  /* Filter/Search */
+  .filter-bar { display:flex; gap:1rem; margin-bottom:2rem; flex-wrap:wrap; align-items:center; }
+  .search-input { flex:1; min-width:250px; padding:0.75rem 1rem; background:var(--surface2); border:1px solid var(--border); border-radius:0.5rem; color:var(--text); font-size:0.9rem; outline:none; }
+  .search-input:focus { border-color:var(--accent); }
+  .filter-btn { padding:0.5rem 1rem; border-radius:2rem; border:1px solid var(--border); background:transparent; color:var(--text-dim); cursor:pointer; font-size:0.8rem; transition:all 0.2s; }
+  .filter-btn.active { background:var(--accent); color:#fff; border-color:var(--accent); }
+
+  /* Soul MD deep dive */
+  .concept-deep { background:var(--surface); border:1px solid var(--border); border-radius:1rem; padding:2rem; margin-bottom:2rem; }
+  .concept-deep h3 { margin-bottom:1rem; }
+  .concept-deep .concept-flow { display:flex; gap:1rem; flex-wrap:wrap; align-items:center; justify-content:center; margin:1.5rem 0; }
+  .concept-node { background:var(--surface2); border:1px solid var(--border); border-radius:0.75rem; padding:0.75rem 1.25rem; text-align:center; min-width:120px; }
+  .concept-node strong { display:block; font-size:0.85rem; }
+  .concept-node small { color:var(--text-dim); font-size:0.7rem; }
+  .concept-arrow { color:var(--accent); font-size:1.5rem; }
+
+  /* Responsive */
+  @media(max-width:768px) {
+    h1 { font-size:2rem; }
+    h2 { font-size:1.5rem; }
+    .frameworks-grid { grid-template-columns:1fr; }
+    .arch-grid { grid-template-columns:1fr; }
+    .hero .stats { gap:1.5rem; }
+    .cart-panel { width:100%; border-radius:1rem 1rem 0 0; }
+    .nav-tabs { gap:0.25rem; }
+    .nav-tab { font-size:0.75rem; padding:0.4rem 0.8rem; }
+  }
+
+  /* Color coding per framework */
+  .c-openclaw { --c:#6c63ff; }  .c-openclaw .fw-icon { background:linear-gradient(135deg,#6c63ff,#8b5cf6); }
+  .c-zeroclaw { --c:#ef5350; }  .c-zeroclaw .fw-icon { background:linear-gradient(135deg,#ef5350,#ff7043); }
+  .c-nanoclaw { --c:#00d4aa; }  .c-nanoclaw .fw-icon { background:linear-gradient(135deg,#00d4aa,#26c6da); }
+  .c-nanobot { --c:#ffa726; }   .c-nanobot .fw-icon { background:linear-gradient(135deg,#ffa726,#ffca28); }
+  .c-picoclaw { --c:#42a5f5; }  .c-picoclaw .fw-icon { background:linear-gradient(135deg,#42a5f5,#29b6f6); }
+  .c-ironclaw { --c:#78909c; }  .c-ironclaw .fw-icon { background:linear-gradient(135deg,#607d8b,#90a4ae); }
+  .c-tinyclaw { --c:#ab47bc; }  .c-tinyclaw .fw-icon { background:linear-gradient(135deg,#ab47bc,#ce93d8); }
+  .c-agentzero { --c:#66bb6a; } .c-agentzero .fw-icon { background:linear-gradient(135deg,#66bb6a,#81c784); }
+  .c-awesome { --c:#ff6b9d; }   .c-awesome .fw-icon { background:linear-gradient(135deg,#ff6b9d,#f48fb1); }
+
+  .source-openclaw { background:rgba(108,99,255,0.15); color:#a5a0ff; }
+  .source-zeroclaw { background:rgba(239,83,80,0.15); color:#ff8a80; }
+  .source-nanoclaw { background:rgba(0,212,170,0.15); color:#69f0ae; }
+  .source-nanobot { background:rgba(255,167,38,0.15); color:#ffd54f; }
+  .source-picoclaw { background:rgba(66,165,245,0.15); color:#90caf9; }
+  .source-ironclaw { background:rgba(120,144,156,0.15); color:#b0bec5; }
+  .source-tinyclaw { background:rgba(171,71,188,0.15); color:#e1bee7; }
+  .source-agentzero { background:rgba(102,187,106,0.15); color:#a5d6a7; }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width:6px; height:6px; }
+  ::-webkit-scrollbar-track { background:var(--bg); }
+  ::-webkit-scrollbar-thumb { background:var(--border); border-radius:3px; }
+  ::-webkit-scrollbar-thumb:hover { background:var(--text-dim); }
+
+  /* Summary Cards */
+  .summary-strip { display:flex; gap:1rem; overflow-x:auto; padding:1rem 0; margin-bottom:2rem; }
+  .summary-chip { flex-shrink:0; padding:0.75rem 1.25rem; background:var(--surface); border:1px solid var(--border); border-radius:0.75rem; display:flex; align-items:center; gap:0.5rem; }
+  .summary-chip .dot { width:10px; height:10px; border-radius:50%; }
+
+  /* Verdict Section */
+  .verdict-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:1rem; }
+  .verdict-card { background:var(--surface); border:1px solid var(--border); border-radius:0.75rem; padding:1.25rem; }
+  .verdict-card h4 { margin-bottom:0.5rem; color:var(--accent4); }
+  .verdict-card p { font-size:0.85rem; color:var(--text-dim); }
+  .verdict-card .pick { font-weight:700; margin-top:0.5rem; }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <h1>Mercearia de Frameworks de Agentes de IA</h1>
+  <p>9 frameworks analisados. Centenas de funcionalidades extraídas. Escolha os ingredientes que importam para o SEU negócio.</p>
+  <div class="stats">
+    <div class="stat"><div class="stat-num">9</div><div class="stat-label">Frameworks</div></div>
+    <div class="stat"><div class="stat-num">7</div><div class="stat-label">Linguagens</div></div>
+    <div class="stat"><div class="stat-num">130+</div><div class="stat-label">Funcionalidades Disponíveis</div></div>
+    <div class="stat"><div class="stat-num">30+</div><div class="stat-label">Modelos de IA Suportados</div></div>
+  </div>
+</section>
+
+<!-- NAV -->
+<nav class="nav-tabs">
+  <button class="nav-tab active" onclick="scrollToSection('overview')">Visão Geral</button>
+  <button class="nav-tab" onclick="scrollToSection('concepts')">Conceitos-Chave</button>
+  <button class="nav-tab" onclick="scrollToSection('shopping')">Compra de Funcionalidades</button>
+  <button class="nav-tab" onclick="scrollToSection('comparison')">Tabela Comparativa</button>
+  <button class="nav-tab" onclick="scrollToSection('architecture')">Arquitetura</button>
+  <button class="nav-tab" onclick="scrollToSection('verdicts')">Veredictos</button>
+</nav>
+
+<!-- OVERVIEW -->
+<section id="overview" class="container">
+  <h2 style="margin-bottom:0.5rem">Os 9 Frameworks em Resumo</h2>
+  <p style="color:var(--text-dim);margin-bottom:2rem">Cada cartão mostra a essência do framework. Pense neles como as "marcas" da sua mercearia.</p>
+
+  <div class="frameworks-grid">
+
+    <!-- OpenClaw -->
+    <div class="fw-card c-openclaw">
+      <div class="fw-card-header">
+        <div class="fw-icon">OC</div>
+        <div><h3>OpenClaw</h3><small style="color:var(--text-dim)">A Plataforma Original</small></div>
+        <span class="fw-lang">TypeScript</span>
+      </div>
+      <div class="fw-card-body">
+        <p>O "sistema operacional" completo para IA pessoal. Pense nele como o iPhone dos assistentes de IA: polido, integrado, tudo funciona junto. A arquitetura Gateway roteia todas as suas mensagens, voz e canvas visual por um centro de controle único.</p>
+        <div class="fw-tags">
+          <span class="fw-tag" style="border-color:#6c63ff;color:#a5a0ff">Gateway Hub</span>
+          <span class="fw-tag" style="border-color:#6c63ff;color:#a5a0ff">Voice Wake</span>
+          <span class="fw-tag" style="border-color:#6c63ff;color:#a5a0ff">Canvas UI</span>
+          <span class="fw-tag" style="border-color:#6c63ff;color:#a5a0ff">Plugin SDK</span>
+          <span class="fw-tag" style="border-color:#6c63ff;color:#a5a0ff">Multi-Agent</span>
+          <span class="fw-tag" style="border-color:#6c63ff;color:#a5a0ff">macOS/iOS Apps</span>
+        </div>
+        <div class="fw-metrics">
+          <div class="fw-metric"><div class="fw-metric-val" style="color:#6c63ff">10+</div><div class="fw-metric-label">Canais</div></div>
+          <div class="fw-metric"><div class="fw-metric-val" style="color:#6c63ff">6+</div><div class="fw-metric-label">Provedores de IA</div></div>
+          <div class="fw-metric"><div class="fw-metric-val" style="color:#6c63ff">195K</div><div class="fw-metric-label">Estrelas no GitHub</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ZeroClaw -->
+    <div class="fw-card c-zeroclaw">
+      <div class="fw-card-header">
+        <div class="fw-icon">ZC</div>
+        <div><h3>ZeroClaw</h3><small style="color:var(--text-dim)">O Motor de Eficiência</small></div>
+        <span class="fw-lang">Rust</span>
+      </div>
+      <div class="fw-card-body">
+        <p>OpenClaw reimaginado em Rust para eficiência extrema. Funciona em uma placa de $10 com menos de 5MB de RAM. Inicializa em 10ms. Cada componente é um "trait" (contrato) intercambiável — troque seu modelo de IA, aplicativo de mensagens ou armazenamento sem tocar no código do agente.</p>
+        <div class="fw-tags">
+          <span class="fw-tag" style="border-color:#ef5350;color:#ff8a80">Trait Architecture</span>
+          <span class="fw-tag" style="border-color:#ef5350;color:#ff8a80">AIEOS Identity</span>
+          <span class="fw-tag" style="border-color:#ef5350;color:#ff8a80">Hybrid Search</span>
+          <span class="fw-tag" style="border-color:#ef5350;color:#ff8a80">Encrypted Secrets</span>
+        </div>
+        <div class="fw-metrics">
+          <div class="fw-metric"><div class="fw-metric-val" style="color:#ef5350">&lt;5MB</div><div class="fw-metric-label">Uso de RAM</div></div>
+          <div class="fw-metric"><div class="fw-metric-val" style="color:#ef5350">22+</div><div class="fw-metric-label">Provedores de IA</div></div>
+          <div class="fw-metric"><div class="fw-metric-val" style="color:#ef5350">10ms</div><div class="fw-metric-label">Tempo de Boot</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NanoClaw -->
+    <div class="fw-card c-nanoclaw">
+      <div class="fw-card-header">
+        <div class="fw-icon">NC</div>
+        <div><h3>NanoClaw</h3><small style="color:var(--text-dim)">O Assistente do WhatsApp</small></div>
+        <span class="fw-lang">TypeScript</span>
+      </div>
+      <div class="fw-card-body">
+        <p>Uma obra-prima de simplicidade com 5.200 linhas. Sua IA vive no WhatsApp. Cada grupo de conversa tem seu próprio cérebro isolado em um contêiner seguro. Pequeno o suficiente para ler de uma vez, poderoso o suficiente para uso empresarial diário. Filosofia "sem complexidade de configuração".</p>
+        <div class="fw-tags">
+          <span class="fw-tag" style="border-color:#00d4aa;color:#69f0ae">Container Isolation</span>
+          <span class="fw-tag" style="border-color:#00d4aa;color:#69f0ae">5,200 Lines Total</span>
+          <span class="fw-tag" style="border-color:#00d4aa;color:#69f0ae">Group Memory</span>
+          <span class="fw-tag" style="border-color:#00d4aa;color:#69f0ae">Skills System</span>
+        </div>
+        <div class="fw-metrics">
+          <div class="fw-metric"><div class="fw-metric-val" style="color:#00d4aa">5.2K</div><div class="fw-metric-label">Linhas de Código</div></div>
+          <div class="fw-metric"><div class="fw-metric-val" style="color:#00d4aa">1</div><div class="fw-metric-label">Canal Principal</div></div>
+          <div class="fw-metric"><div class="fw-metric-val" style="color:#00d4aa">VM</div><div class="fw-metric-label">Nível de Isolamento</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NanoBot -->
+    <div class="fw-card c-nanobot">
+      <div class="fw-card-header">
+        <div class="fw-icon">NB</div>
+        <div><h3>NanoBot</h3><small style="color:var(--text-dim)">O Poliglota Python</small></div>
+        <span class="fw-lang">Python</span>
+      </div>
+      <div class="fw-card-body">
+        <p>Framework Python ultra-leve com 4.000 linhas principais que suporta 9+ plataformas de chat e 13+ provedores de IA. Usa arquitetura de barramento de mensagens para que canais, agentes e memória permaneçam claramente separados. Pronto para pesquisa e fácil de estender.</p>
+        <div class="fw-tags">
+          <span class="fw-tag" style="border-color:#ffa726;color:#ffd54f">Message Bus</span>
+          <span class="fw-tag" style="border-color:#ffa726;color:#ffd54f">Soul.md</span>
+          <span class="fw-tag" style="border-color:#ffa726;color:#ffd54f">13+ Providers</span>
+          <span class="fw-tag" style="border-color:#ffa726;color:#ffd54f">MCP Support</span>
+        </div>
+        <div class="fw-metrics">
+          <div class="fw-metric"><div class="fw-metric-val" style="color:#ffa726">4K</div><div class="fw-metric-label">Linhas Principais</div></div>
+          <div class="fw-metric"><div class="fw-metric-val" style="color:#ffa726">9+</div><div class="fw-metric-label">Canais</div></div>
+          <div class="fw-metric"><div class="fw-metric-val" style="color:#ffa726">13+</div><div class="fw-metric-label">Provedores de IA</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PicoClaw -->
+    <div class="fw-card c-picoclaw">
+      <div class="fw-card-header">
+        <div class="fw-icon">PC</div>
+        <div><h3>PicoClaw</h3><small style="color:var(--text-dim)">O Executador de Borda</small></div>
+        <span class="fw-lang">Go</span>
+      </div>
+      <div class="fw-card-body">
+        <p>Executa seu assistente de IA em uma placa de circuito de $10. Escrito em Go para portabilidade extrema. Binário único de 10MB, sem dependências. Até controla pinos de hardware para dispositivos IoT. Perfeito para IA sempre ligada, implantada em qualquer lugar, com custo quase zero de operação.</p>
+        <div class="fw-tags">
+          <span class="fw-tag" style="border-color:#42a5f5;color:#90caf9">$10 Hardware</span>
+          <span class="fw-tag" style="border-color:#42a5f5;color:#90caf9">GPIO/I2C/SPI</span>
+          <span class="fw-tag" style="border-color:#42a5f5;color:#90caf9">Single Binary</span>
+          <span class="fw-tag" style="border-color:#42a5f5;color:#90caf9">RISC-V Support</span>
+        </div>
+        <div class="fw-metrics">
+          <div class="fw-metric"><div class="fw-metric-val" style="color:#42a5f5">&lt;10MB</div><div class="fw-metric-label">Uso de RAM</div></div>
+          <div class="fw-metric"><div class="fw-metric-val" style="color:#42a5f5">8+</div><div class="fw-metric-label">Canais</div></div>
+          <div class="fw-metric"><div class="fw-metric-val" style="color:#42a5f5">400x</div><div class="fw-metric-label">Inicialização mais Rápida</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- IronClaw -->
+    <div class="fw-card c-ironclaw">
+      <div class="fw-card-header">
+        <div class="fw-icon">IC</div>
+        <div><h3>IronClaw</h3><small style="color:var(--text-dim)">A Fortaleza de Segurança</small></div>
+        <span class="fw-lang">Rust</span>
+      </div>
+      <div class="fw-card-body">
+        <p>O "Fort Knox" dos assistentes de IA. As ferramentas rodam em sandboxes WASM que não podem vazar seus segredos. Defesa contra injeção de prompt embutida. Suporte a banco de dados duplo (PostgreSQL + SQLite). Se você lida com dados sensíveis, a arquitetura zero-trust do IronClaw é o padrão ouro.</p>
+        <div class="fw-tags">
+          <span class="fw-tag" style="border-color:#78909c;color:#b0bec5">WASM Sandbox</span>
+          <span class="fw-tag" style="border-color:#78909c;color:#b0bec5">Leak Detection</span>
+          <span class="fw-tag" style="border-color:#78909c;color:#b0bec5">Prompt Injection Defense</span>
+          <span class="fw-tag" style="border-color:#78909c;color:#b0bec5">Dual Database</span>
+        </div>
+        <div class="fw-metrics">
+          <div class="fw-metric"><div class="fw-metric-val" style="color:#90a4ae">WASM</div><div class="fw-metric-label">Tipo de Sandbox</div></div>
+          <div class="fw-metric"><div class="fw-metric-val" style="color:#90a4ae">5+</div><div class="fw-metric-label">Jobs Paralelos</div></div>
+          <div class="fw-metric"><div class="fw-metric-val" style="color:#90a4ae">40+</div><div class="fw-metric-label">Rotas de API Web</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TinyClaw -->
+    <div class="fw-card c-tinyclaw">
+      <div class="fw-card-header">
+        <div class="fw-icon">TC</div>
+        <div><h3>TinyClaw</h3><small style="color:var(--text-dim)">O Construtor de Equipes de IA</small></div>
+        <span class="fw-lang">TypeScript/Bash</span>
+      </div>
+      <div class="fw-card-body">
+        <p>Construa equipes de agentes de IA que colaboram de forma autônoma. @coder corrige bugs, passa para @reviewer que passa para @writer. Os agentes se comunicam por meio de uma fila baseada em arquivos. Misture agentes Claude e OpenAI em uma equipe. Funciona 24/7 em segundo plano.</p>
+        <div class="fw-tags">
+          <span class="fw-tag" style="border-color:#ab47bc;color:#e1bee7">Agent Teams</span>
+          <span class="fw-tag" style="border-color:#ab47bc;color:#e1bee7">Sequential Handoff</span>
+          <span class="fw-tag" style="border-color:#ab47bc;color:#e1bee7">Mixed Providers</span>
+          <span class="fw-tag" style="border-color:#ab47bc;color:#e1bee7">Live Dashboard</span>
+        </div>
+        <div class="fw-metrics">
+          <div class="fw-metric"><div class="fw-metric-val" style="color:#ab47bc">N</div><div class="fw-metric-label">Agentes Simultâneos</div></div>
+          <div class="fw-metric"><div class="fw-metric-val" style="color:#ab47bc">3</div><div class="fw-metric-label">Canais</div></div>
+          <div class="fw-metric"><div class="fw-metric-val" style="color:#ab47bc">24/7</div><div class="fw-metric-label">Sempre Ativo</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Agent Zero -->
+    <div class="fw-card c-agentzero">
+      <div class="fw-card-header">
+        <div class="fw-icon">A0</div>
+        <div><h3>Agent Zero</h3><small style="color:var(--text-dim)">A Máquina de Aprendizado</small></div>
+        <span class="fw-lang">Python</span>
+      </div>
+      <div class="fw-card-body">
+        <p>Uma IA que fica mais inteligente quanto mais você a usa. Cada solução encontrada é armazenada para a próxima vez. 100% transparente: cada instrução é visível e editável. Nativa em Docker com isolamento de projeto. Cria suas próprias ferramentas na hora escrevendo código.</p>
+        <div class="fw-tags">
+          <span class="fw-tag" style="border-color:#66bb6a;color:#a5d6a7">Self-Learning</span>
+          <span class="fw-tag" style="border-color:#66bb6a;color:#a5d6a7">SKILL.md Standard</span>
+          <span class="fw-tag" style="border-color:#66bb6a;color:#a5d6a7">Project Isolation</span>
+          <span class="fw-tag" style="border-color:#66bb6a;color:#a5d6a7">20+ Providers</span>
+        </div>
+        <div class="fw-metrics">
+          <div class="fw-metric"><div class="fw-metric-val" style="color:#66bb6a">20+</div><div class="fw-metric-label">Provedores de IA</div></div>
+          <div class="fw-metric"><div class="fw-metric-val" style="color:#66bb6a">100%</div><div class="fw-metric-label">Transparente</div></div>
+          <div class="fw-metric"><div class="fw-metric-val" style="color:#66bb6a">Docker</div><div class="fw-metric-label">Ambiente de Execução</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Awesome OpenClaw -->
+    <div class="fw-card c-awesome">
+      <div class="fw-card-header">
+        <div class="fw-icon">AO</div>
+        <div><h3>Awesome OpenClaw</h3><small style="color:var(--text-dim)">A Base de Conhecimento</small></div>
+        <span class="fw-lang">Docs / Guia</span>
+      </div>
+      <div class="fw-card-body">
+        <p>Não é um framework — é a biblioteca de referência definitiva. Calculadoras de custo, 5.700+ plugins da comunidade, avisos de segurança, guias de configuração para 30+ plataformas e casos de uso do mundo real. Seu companheiro de pesquisa na hora de decidir o que construir.</p>
+        <div class="fw-tags">
+          <span class="fw-tag" style="border-color:#ff6b9d;color:#f48fb1">Cost Analysis</span>
+          <span class="fw-tag" style="border-color:#ff6b9d;color:#f48fb1">5,700+ Skills</span>
+          <span class="fw-tag" style="border-color:#ff6b9d;color:#f48fb1">Security Audits</span>
+          <span class="fw-tag" style="border-color:#ff6b9d;color:#f48fb1">30+ Deploy Options</span>
+        </div>
+        <div class="fw-metrics">
+          <div class="fw-metric"><div class="fw-metric-val" style="color:#ff6b9d">5.7K+</div><div class="fw-metric-label">Skills Listadas</div></div>
+          <div class="fw-metric"><div class="fw-metric-val" style="color:#ff6b9d">6</div><div class="fw-metric-label">CVEs Documentadas</div></div>
+          <div class="fw-metric"><div class="fw-metric-val" style="color:#ff6b9d">$0-50</div><div class="fw-metric-label">Custo Mensal</div></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- KEY CONCEPTS -->
+<section id="concepts" class="container">
+  <h2 style="margin-bottom:0.5rem">Conceitos-Chave Explicados</h2>
+  <p style="color:var(--text-dim);margin-bottom:2.5rem">Estas são as ideias que impulsionam cada framework. Compreendê-las ajuda você a escolher o que importa.</p>
+
+  <!-- Soul.md / Identity -->
+  <div class="concept-deep">
+    <h3>A "Alma" da Sua IA (Sistema de Identidade)</h3>
+    <p style="color:var(--text-dim);margin-bottom:1rem">Todo framework permite definir <strong>quem é sua IA</strong> usando arquivos de texto simples. É como escrever uma descrição de cargo para seu funcionário digital.</p>
+    <div class="concept-flow">
+      <div class="concept-node"><strong>SOUL.md</strong><small>Personalidade e valores</small></div>
+      <span class="concept-arrow">&rarr;</span>
+      <div class="concept-node"><strong>AGENTS.md</strong><small>Regras de comportamento</small></div>
+      <span class="concept-arrow">&rarr;</span>
+      <div class="concept-node"><strong>USER.md</strong><small>Suas preferências</small></div>
+      <span class="concept-arrow">&rarr;</span>
+      <div class="concept-node"><strong>MEMORY.md</strong><small>O que ela lembra</small></div>
+      <span class="concept-arrow">&rarr;</span>
+      <div class="concept-node" style="border-color:var(--accent)"><strong>Seu Assistente de IA</strong><small>Personalizado e inteligente</small></div>
+    </div>
+    <p style="color:var(--text-dim);font-size:0.85rem"><strong>Quem usa:</strong> OpenClaw, NanoBot, ZeroClaw, PicoClaw, NanoClaw, Agent Zero (cada um com pequenas variações)</p>
+  </div>
+
+  <!-- Gateway -->
+  <div class="concept-deep">
+    <h3>O Gateway (Centro de Controle de Tráfego)</h3>
+    <p style="color:var(--text-dim);margin-bottom:1rem">Um hub central que recebe mensagens de todos os seus aplicativos (WhatsApp, Slack, Telegram) e as encaminha para o agente de IA correto. Pense nele como uma recepcionista que sabe qual departamento cuida de cada pergunta.</p>
+    <div class="concept-flow">
+      <div class="concept-node" style="border-color:var(--accent5)"><strong>WhatsApp</strong><small>Canal</small></div>
+      <div class="concept-node" style="border-color:var(--accent5)"><strong>Telegram</strong><small>Canal</small></div>
+      <div class="concept-node" style="border-color:var(--accent5)"><strong>Slack</strong><small>Canal</small></div>
+      <span class="concept-arrow">&rarr;</span>
+      <div class="concept-node" style="border-color:var(--accent);background:rgba(108,99,255,0.1)"><strong>GATEWAY</strong><small>Roteia e gerencia</small></div>
+      <span class="concept-arrow">&rarr;</span>
+      <div class="concept-node" style="border-color:var(--accent2)"><strong>Agente A</strong><small>Tarefas de trabalho</small></div>
+      <div class="concept-node" style="border-color:var(--accent2)"><strong>Agente B</strong><small>Tarefas pessoais</small></div>
+    </div>
+    <p style="color:var(--text-dim);font-size:0.85rem"><strong>Quem usa:</strong> OpenClaw (principal), ZeroClaw, PicoClaw, NanoBot, IronClaw</p>
+  </div>
+
+  <!-- Sandboxing -->
+  <div class="concept-deep">
+    <h3>Sandboxing (Muros de Segurança)</h3>
+    <p style="color:var(--text-dim);margin-bottom:1rem">Quando sua IA executa código ou usa ferramentas, o sandboxing a mantém contida. Como dar a um funcionário acesso apenas ao seu escritório, não ao prédio inteiro. Frameworks diferentes usam "materiais de muro" diferentes.</p>
+    <div class="concept-flow">
+      <div class="concept-node" style="border-color:#00d4aa"><strong>Container VM</strong><small>NanoClaw</small></div>
+      <div class="concept-node" style="border-color:#78909c"><strong>WASM Sandbox</strong><small>IronClaw</small></div>
+      <div class="concept-node" style="border-color:#66bb6a"><strong>Docker</strong><small>Agent Zero</small></div>
+      <div class="concept-node" style="border-color:#ef5350"><strong>Kernel Landlock</strong><small>ZeroClaw</small></div>
+      <div class="concept-node" style="border-color:#42a5f5"><strong>Workspace Jail</strong><small>PicoClaw</small></div>
+    </div>
+  </div>
+
+  <!-- Tools -->
+  <div class="concept-deep">
+    <h3>Ferramentas (O Que Sua IA Pode Realmente Fazer)</h3>
+    <p style="color:var(--text-dim);margin-bottom:1rem">As ferramentas são as mãos e os braços da sua IA. Cada framework dá à sua IA habilidades diferentes.</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:0.75rem;margin-top:1rem">
+      <div class="concept-node"><strong>Leitura/Escrita de Arquivos</strong><small>Todos os frameworks</small></div>
+      <div class="concept-node"><strong>Busca na Web</strong><small>Todos os frameworks</small></div>
+      <div class="concept-node"><strong>Executar Comandos</strong><small>Todos os frameworks</small></div>
+      <div class="concept-node"><strong>Controle de Navegador</strong><small>OC, NC, A0, NB</small></div>
+      <div class="concept-node"><strong>Tarefas Agendadas</strong><small>Todos os frameworks</small></div>
+      <div class="concept-node"><strong>Enviar Mensagens</strong><small>Todos os frameworks</small></div>
+      <div class="concept-node" style="border-color:var(--accent4)"><strong>Pinos de Hardware</strong><small>Somente PicoClaw</small></div>
+      <div class="concept-node" style="border-color:var(--accent4)"><strong>Entrada/Saída de Voz</strong><small>OpenClaw, PicoClaw</small></div>
+      <div class="concept-node" style="border-color:var(--accent4)"><strong>Canvas Visual</strong><small>Somente OpenClaw</small></div>
+      <div class="concept-node" style="border-color:var(--accent4)"><strong>Criar Sub-Agentes</strong><small>OC, PC, NB, TC, A0</small></div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURE SHOPPING -->
+<section id="shopping" class="shopping-section" style="padding:5rem 0">
+  <div class="container">
+    <h2>Mercearia de Funcionalidades</h2>
+    <p class="shopping-subtitle">Clique nos itens para adicioná-los ao seu carrinho. Monte a lista de ingredientes do seu framework ideal.</p>
+
+    <div class="filter-bar">
+      <input type="text" class="search-input" placeholder="Buscar funcionalidades..." oninput="filterItems(this.value)">
+      <button class="filter-btn active" onclick="filterCategory('all',this)">Todos</button>
+      <button class="filter-btn" onclick="filterCategory('identity',this)">Identidade</button>
+      <button class="filter-btn" onclick="filterCategory('security',this)">Segurança</button>
+      <button class="filter-btn" onclick="filterCategory('communication',this)">Comunicação</button>
+      <button class="filter-btn" onclick="filterCategory('memory',this)">Memória</button>
+      <button class="filter-btn" onclick="filterCategory('automation',this)">Automação</button>
+      <button class="filter-btn" onclick="filterCategory('integration',this)">Integrações</button>
+      <button class="filter-btn" onclick="filterCategory('skills',this)">Skills e Ferramentas</button>
+      <button class="filter-btn" onclick="filterCategory('architecture',this)">Arquitetura</button>
+    </div>
+
+    <!-- Identity Aisle -->
+    <div class="aisle" data-category="identity">
+      <div class="aisle-header">
+        <span class="aisle-icon">&#x1f9ec;</span>
+        <h3>Identidade e Personalidade</h3>
+        <span class="aisle-count">Como sua IA se apresenta</span>
+      </div>
+      <div class="items-grid">
+        <div class="item-card" data-name="Soul.md Personality File" onclick="toggleItem(this)">
+          <div class="item-name">Arquivo de Personalidade Soul.md</div>
+          <div class="item-desc">Defina a personalidade, os valores e o estilo de comunicação da sua IA em um arquivo de texto simples. Como escrever uma ficha de personagem.</div>
+          <div class="item-sources"><span class="item-source source-openclaw">OpenClaw</span><span class="item-source source-nanobot">NanoBot</span><span class="item-source source-zeroclaw">ZeroClaw</span><span class="item-source source-picoclaw">PicoClaw</span></div>
+        </div>
+        <div class="item-card" data-name="AIEOS Portable Identity" onclick="toggleItem(this)">
+          <div class="item-name">Padrão de Identidade Portátil AIEOS</div>
+          <div class="item-desc">Um formato universal para identidade de IA (psicologia, linguística, motivações). Exporte a personalidade da sua IA para qualquer sistema compatível.</div>
+          <div class="item-sources"><span class="item-source source-zeroclaw">ZeroClaw</span></div>
+        </div>
+        <div class="item-card" data-name="Per-Group Memory" onclick="toggleItem(this)">
+          <div class="item-name">Memória Isolada por Grupo</div>
+          <div class="item-desc">Cada grupo de conversa tem seu próprio cérebro. Seu chat de trabalho e o de família nunca misturam contexto ou dados.</div>
+          <div class="item-sources"><span class="item-source source-nanoclaw">NanoClaw</span><span class="item-source source-ironclaw">IronClaw</span></div>
+        </div>
+        <div class="item-card" data-name="Agent Profiles" onclick="toggleItem(this)">
+          <div class="item-name">Perfis de Agente Intercambiáveis</div>
+          <div class="item-desc">Personas pré-criadas (desenvolvedor, pesquisador, escritor) entre as quais você pode alternar. Como trocar de chapéu.</div>
+          <div class="item-sources"><span class="item-source source-agentzero">Agent Zero</span><span class="item-source source-tinyclaw">TinyClaw</span></div>
+        </div>
+        <div class="item-card" data-name="Dynamic Behavior Rules" onclick="toggleItem(this)">
+          <div class="item-name">Regras de Comportamento Dinâmicas</div>
+          <div class="item-desc">Altere o comportamento da IA no meio da conversa. Sem necessidade de reinicialização. Ela se adapta imediatamente.</div>
+          <div class="item-sources"><span class="item-source source-agentzero">Agent Zero</span><span class="item-source source-openclaw">OpenClaw</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Security Aisle -->
+    <div class="aisle" data-category="security">
+      <div class="aisle-header">
+        <span class="aisle-icon">&#x1f6e1;</span>
+        <h3>Segurança e Proteção</h3>
+        <span class="aisle-count">Protegendo seus dados e sistemas</span>
+      </div>
+      <div class="items-grid">
+        <div class="item-card" data-name="WASM Sandbox" onclick="toggleItem(this)">
+          <div class="item-name">WASM Sandbox para Ferramentas</div>
+          <div class="item-desc">As ferramentas rodam em contêineres isolados minúsculos (WebAssembly). Elas fisicamente não podem acessar seus arquivos ou segredos. Mais leve que Docker.</div>
+          <div class="item-sources"><span class="item-source source-ironclaw">IronClaw</span></div>
+        </div>
+        <div class="item-card" data-name="Container VM Isolation" onclick="toggleItem(this)">
+          <div class="item-name">Isolamento por Container VM</div>
+          <div class="item-desc">Cada conversa roda em sua própria máquina virtual. Isolamento completo em nível de SO. A barreira mais forte entre a IA e seu sistema.</div>
+          <div class="item-sources"><span class="item-source source-nanoclaw">NanoClaw</span></div>
+        </div>
+        <div class="item-card" data-name="Prompt Injection Defense" onclick="toggleItem(this)">
+          <div class="item-name">Defesa contra Injeção de Prompt</div>
+          <div class="item-desc">Detecta e bloqueia tentativas de enganar sua IA com instruções ocultas em páginas web ou mensagens. Detecção de padrões em múltiplas camadas.</div>
+          <div class="item-sources"><span class="item-source source-ironclaw">IronClaw</span></div>
+        </div>
+        <div class="item-card" data-name="Secret Leak Detection" onclick="toggleItem(this)">
+          <div class="item-name">Detecção de Vazamento de Segredos</div>
+          <div class="item-desc">Verifica as saídas das ferramentas antes de chegarem à IA para garantir que suas chaves de API e senhas não sejam expostas acidentalmente.</div>
+          <div class="item-sources"><span class="item-source source-ironclaw">IronClaw</span></div>
+        </div>
+        <div class="item-card" data-name="Pairing Code Access" onclick="toggleItem(this)">
+          <div class="item-name">Controle de Acesso por Código de Pareamento</div>
+          <div class="item-desc">Novos usuários devem inserir um código de 6 dígitos que você fornece antes de conversar com sua IA. Impede acesso não autorizado.</div>
+          <div class="item-sources"><span class="item-source source-openclaw">OpenClaw</span><span class="item-source source-zeroclaw">ZeroClaw</span><span class="item-source source-tinyclaw">TinyClaw</span></div>
+        </div>
+        <div class="item-card" data-name="Encrypted Secret Store" onclick="toggleItem(this)">
+          <div class="item-name">Armazenamento Criptografado de Segredos</div>
+          <div class="item-desc">Chaves de API armazenadas com criptografia de nível militar (ChaCha20). Mesmo que alguém roube o arquivo, não conseguirá lê-lo.</div>
+          <div class="item-sources"><span class="item-source source-zeroclaw">ZeroClaw</span><span class="item-source source-ironclaw">IronClaw</span></div>
+        </div>
+        <div class="item-card" data-name="Command Blocklist" onclick="toggleItem(this)">
+          <div class="item-name">Lista de Bloqueio de Comandos Perigosos</div>
+          <div class="item-desc">Bloqueia automaticamente comandos que podem danificar seu sistema (deletar tudo, formatar discos, reiniciar, etc.)</div>
+          <div class="item-sources"><span class="item-source source-picoclaw">PicoClaw</span><span class="item-source source-nanobot">NanoBot</span><span class="item-source source-zeroclaw">ZeroClaw</span></div>
+        </div>
+        <div class="item-card" data-name="Execution Approval Gates" onclick="toggleItem(this)">
+          <div class="item-name">Gates de Aprovação de Execução</div>
+          <div class="item-desc">A IA deve pedir sua permissão antes de executar certos comandos. Três níveis: somente leitura, supervisionado, autonomia total.</div>
+          <div class="item-sources"><span class="item-source source-openclaw">OpenClaw</span><span class="item-source source-zeroclaw">ZeroClaw</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Communication Aisle -->
+    <div class="aisle" data-category="communication">
+      <div class="aisle-header">
+        <span class="aisle-icon">&#x1f4ac;</span>
+        <h3>Canais de Comunicação</h3>
+        <span class="aisle-count">Onde sua IA vive</span>
+      </div>
+      <div class="items-grid">
+        <div class="item-card" data-name="WhatsApp Integration" onclick="toggleItem(this)">
+          <div class="item-name">Integração com WhatsApp</div>
+          <div class="item-desc">Converse com sua IA pelo WhatsApp. Envie mensagens, imagens, notas de voz. O mais natural para uso empresarial diário.</div>
+          <div class="item-sources"><span class="item-source source-openclaw">OpenClaw</span><span class="item-source source-nanoclaw">NanoClaw</span><span class="item-source source-nanobot">NanoBot</span><span class="item-source source-picoclaw">PicoClaw</span><span class="item-source source-zeroclaw">ZeroClaw</span><span class="item-source source-tinyclaw">TinyClaw</span></div>
+        </div>
+        <div class="item-card" data-name="Telegram Bot" onclick="toggleItem(this)">
+          <div class="item-name">Bot do Telegram</div>
+          <div class="item-desc">Configuração mais fácil — apenas um token. Suporte a mídia rica, botões inline, compartilhamento de arquivos. Ótimo para equipes.</div>
+          <div class="item-sources"><span class="item-source source-openclaw">OpenClaw</span><span class="item-source source-nanobot">NanoBot</span><span class="item-source source-picoclaw">PicoClaw</span><span class="item-source source-zeroclaw">ZeroClaw</span><span class="item-source source-ironclaw">IronClaw</span><span class="item-source source-tinyclaw">TinyClaw</span></div>
+        </div>
+        <div class="item-card" data-name="Discord Integration" onclick="toggleItem(this)">
+          <div class="item-name">Bot do Discord</div>
+          <div class="item-desc">Assistente de IA no seu servidor Discord. Perfeito para gerenciamento de comunidade, canais de equipe.</div>
+          <div class="item-sources"><span class="item-source source-openclaw">OpenClaw</span><span class="item-source source-picoclaw">PicoClaw</span><span class="item-source source-zeroclaw">ZeroClaw</span><span class="item-source source-ironclaw">IronClaw</span><span class="item-source source-tinyclaw">TinyClaw</span></div>
+        </div>
+        <div class="item-card" data-name="Slack Integration" onclick="toggleItem(this)">
+          <div class="item-name">Integração com Slack</div>
+          <div class="item-desc">Sua IA no Slack. Sem necessidade de IP público (Socket Mode). Perfeito para automação no ambiente de trabalho.</div>
+          <div class="item-sources"><span class="item-source source-openclaw">OpenClaw</span><span class="item-source source-nanobot">NanoBot</span><span class="item-source source-picoclaw">PicoClaw</span><span class="item-source source-zeroclaw">ZeroClaw</span><span class="item-source source-ironclaw">IronClaw</span></div>
+        </div>
+        <div class="item-card" data-name="Voice Wake Word" onclick="toggleItem(this)">
+          <div class="item-name">Palavra de Ativação por Voz</div>
+          <div class="item-desc">Diga "hey claude" e sua IA escuta. Controle de voz sempre ativo como um alto-falante inteligente, mas privado.</div>
+          <div class="item-sources"><span class="item-source source-openclaw">OpenClaw</span></div>
+        </div>
+        <div class="item-card" data-name="Email Integration" onclick="toggleItem(this)">
+          <div class="item-name">E-mail (IMAP/SMTP)</div>
+          <div class="item-desc">A IA lê seu e-mail e pode responder. Filtra spam, resume newsletters, rascunha respostas.</div>
+          <div class="item-sources"><span class="item-source source-nanobot">NanoBot</span><span class="item-source source-zeroclaw">ZeroClaw</span></div>
+        </div>
+        <div class="item-card" data-name="Web Dashboard" onclick="toggleItem(this)">
+          <div class="item-name">Painel no Navegador Web</div>
+          <div class="item-desc">Converse com sua IA pelo navegador. Veja status em tempo real, memória, progresso de tarefas. Sem necessidade de instalar aplicativo.</div>
+          <div class="item-sources"><span class="item-source source-openclaw">OpenClaw</span><span class="item-source source-ironclaw">IronClaw</span><span class="item-source source-agentzero">Agent Zero</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Memory Aisle -->
+    <div class="aisle" data-category="memory">
+      <div class="aisle-header">
+        <span class="aisle-icon">&#x1f9e0;</span>
+        <h3>Memória e Conhecimento</h3>
+        <span class="aisle-count">Como sua IA lembra</span>
+      </div>
+      <div class="items-grid">
+        <div class="item-card" data-name="Hybrid Vector+Keyword Search" onclick="toggleItem(this)">
+          <div class="item-name">Busca Híbrida Vetorial + por Palavras-Chave</div>
+          <div class="item-desc">Combina "entender o que você quer dizer" (semântica) com "encontrar palavras exatas" (palavras-chave). O melhor dos dois mundos para recuperação.</div>
+          <div class="item-sources"><span class="item-source source-ironclaw">IronClaw</span><span class="item-source source-zeroclaw">ZeroClaw</span><span class="item-source source-agentzero">Agent Zero</span></div>
+        </div>
+        <div class="item-card" data-name="Two-Layer Memory" onclick="toggleItem(this)">
+          <div class="item-name">Sistema de Memória em Duas Camadas</div>
+          <div class="item-desc">Camada 1: Fatos rápidos (MEMORY.md). Camada 2: Log de histórico pesquisável. Simples, mas eficaz.</div>
+          <div class="item-sources"><span class="item-source source-nanobot">NanoBot</span><span class="item-source source-picoclaw">PicoClaw</span></div>
+        </div>
+        <div class="item-card" data-name="Solution Memory" onclick="toggleItem(this)">
+          <div class="item-name">Memória de Soluções (Aprender com a Experiência)</div>
+          <div class="item-desc">A IA salva automaticamente soluções bem-sucedidas. Na próxima vez que enfrentar um problema semelhante, ela se lembrará do que funcionou antes.</div>
+          <div class="item-sources"><span class="item-source source-agentzero">Agent Zero</span></div>
+        </div>
+        <div class="item-card" data-name="Document Knowledge Base" onclick="toggleItem(this)">
+          <div class="item-name">Base de Conhecimento em Documentos</div>
+          <div class="item-desc">Faça upload de PDFs, planilhas, documentos. A IA pode pesquisar e analisá-los. O conhecimento da sua empresa ao alcance da mão.</div>
+          <div class="item-sources"><span class="item-source source-agentzero">Agent Zero</span><span class="item-source source-openclaw">OpenClaw</span></div>
+        </div>
+        <div class="item-card" data-name="Session Auto-Compaction" onclick="toggleItem(this)">
+          <div class="item-name">Compactação Automática de Sessão</div>
+          <div class="item-desc">Quando as conversas ficam muito longas, resume automaticamente as partes antigas para manter a IA rápida enquanto preserva informações essenciais.</div>
+          <div class="item-sources"><span class="item-source source-nanoclaw">NanoClaw</span><span class="item-source source-ironclaw">IronClaw</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Automation Aisle -->
+    <div class="aisle" data-category="automation">
+      <div class="aisle-header">
+        <span class="aisle-icon">&#x2699;</span>
+        <h3>Automação e Agendamento</h3>
+        <span class="aisle-count">Trabalhe enquanto você dorme</span>
+      </div>
+      <div class="items-grid">
+        <div class="item-card" data-name="Cron Scheduling" onclick="toggleItem(this)">
+          <div class="item-name">Agendamento Cron</div>
+          <div class="item-desc">Execute tarefas em um cronograma: "toda segunda-feira às 9h, me envie um briefing." Funciona como um despertador confiável para sua IA.</div>
+          <div class="item-sources"><span class="item-source source-openclaw">OpenClaw</span><span class="item-source source-nanoclaw">NanoClaw</span><span class="item-source source-nanobot">NanoBot</span><span class="item-source source-picoclaw">PicoClaw</span><span class="item-source source-zeroclaw">ZeroClaw</span><span class="item-source source-tinyclaw">TinyClaw</span><span class="item-source source-ironclaw">IronClaw</span></div>
+        </div>
+        <div class="item-card" data-name="Heartbeat System" onclick="toggleItem(this)">
+          <div class="item-name">Heartbeat (Verificações Periódicas)</div>
+          <div class="item-desc">A IA acorda a cada 30 minutos para verificar se algo precisa de atenção. Proativa, não apenas reativa.</div>
+          <div class="item-sources"><span class="item-source source-openclaw">OpenClaw</span><span class="item-source source-picoclaw">PicoClaw</span><span class="item-source source-nanobot">NanoBot</span><span class="item-source source-ironclaw">IronClaw</span><span class="item-source source-zeroclaw">ZeroClaw</span></div>
+        </div>
+        <div class="item-card" data-name="Browser Automation" onclick="toggleItem(this)">
+          <div class="item-name">Automação de Navegador</div>
+          <div class="item-desc">A IA controla um navegador: preenche formulários, clica em botões, extrai dados, tira capturas de tela. Automatiza trabalho baseado na web.</div>
+          <div class="item-sources"><span class="item-source source-openclaw">OpenClaw</span><span class="item-source source-nanoclaw">NanoClaw</span><span class="item-source source-agentzero">Agent Zero</span><span class="item-source source-tinyclaw">TinyClaw</span></div>
+        </div>
+        <div class="item-card" data-name="Webhook Triggers" onclick="toggleItem(this)">
+          <div class="item-name">Gatilhos via Webhook</div>
+          <div class="item-desc">Serviços externos (Zapier, n8n, Shopify) podem acionar sua IA via URL. Conecta-se a qualquer ecossistema de automação.</div>
+          <div class="item-sources"><span class="item-source source-openclaw">OpenClaw</span><span class="item-source source-zeroclaw">ZeroClaw</span><span class="item-source source-ironclaw">IronClaw</span></div>
+        </div>
+        <div class="item-card" data-name="Background Sub-Agents" onclick="toggleItem(this)">
+          <div class="item-name">Sub-Agentes em Segundo Plano</div>
+          <div class="item-desc">Crie trabalhadores de IA auxiliares para tarefas longas. O agente principal permanece responsivo enquanto os trabalhadores fazem o trabalho pesado em segundo plano.</div>
+          <div class="item-sources"><span class="item-source source-picoclaw">PicoClaw</span><span class="item-source source-nanobot">NanoBot</span><span class="item-source source-agentzero">Agent Zero</span><span class="item-source source-tinyclaw">TinyClaw</span></div>
+        </div>
+        <div class="item-card" data-name="Agent Team Collaboration" onclick="toggleItem(this)">
+          <div class="item-name">Colaboração em Equipe de Agentes</div>
+          <div class="item-desc">Múltiplos agentes especializados (@coder, @reviewer, @writer) passam trabalho uns para os outros automaticamente. Como uma pequena empresa de IA.</div>
+          <div class="item-sources"><span class="item-source source-tinyclaw">TinyClaw</span><span class="item-source source-nanoclaw">NanoClaw</span><span class="item-source source-agentzero">Agent Zero</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Integration Aisle -->
+    <div class="aisle" data-category="integration">
+      <div class="aisle-header">
+        <span class="aisle-icon">&#x1f517;</span>
+        <h3>Integrações e Protocolos</h3>
+        <span class="aisle-count">Conectando-se ao mundo</span>
+      </div>
+      <div class="items-grid">
+        <div class="item-card" data-name="MCP Protocol" onclick="toggleItem(this)">
+          <div class="item-name">MCP (Model Context Protocol)</div>
+          <div class="item-desc">Padrão universal para conectar IA a ferramentas externas. Um protocolo, milhares de integrações. O "USB" das ferramentas de IA.</div>
+          <div class="item-sources"><span class="item-source source-openclaw">OpenClaw</span><span class="item-source source-nanobot">NanoBot</span><span class="item-source source-ironclaw">IronClaw</span><span class="item-source source-agentzero">Agent Zero</span></div>
+        </div>
+        <div class="item-card" data-name="Skills System" onclick="toggleItem(this)">
+          <div class="item-name">Sistema de Skills / Plugins</div>
+          <div class="item-desc">Instale novas capacidades como aplicativos no celular. "Instalar skill de clima" ou "instalar skill do GitHub." Sem necessidade de codificação.</div>
+          <div class="item-sources"><span class="item-source source-openclaw">OpenClaw</span><span class="item-source source-picoclaw">PicoClaw</span><span class="item-source source-nanoclaw">NanoClaw</span><span class="item-source source-agentzero">Agent Zero</span><span class="item-source source-tinyclaw">TinyClaw</span></div>
+        </div>
+        <div class="item-card" data-name="Plugin SDK" onclick="toggleItem(this)">
+          <div class="item-name">Plugin SDK (Construa o Seu)</div>
+          <div class="item-desc">Um kit de desenvolvedor para criar novos canais, ferramentas e backends de memória. Crie integrações personalizadas para o seu negócio específico.</div>
+          <div class="item-sources"><span class="item-source source-openclaw">OpenClaw</span><span class="item-source source-ironclaw">IronClaw</span></div>
+        </div>
+        <div class="item-card" data-name="Multi-Provider Failover" onclick="toggleItem(this)">
+          <div class="item-name">Failover Multi-Provedor de IA</div>
+          <div class="item-desc">Se o Claude cair, alterne automaticamente para o GPT. Se o GPT estiver lento, tente o Gemini. Nunca perca o serviço.</div>
+          <div class="item-sources"><span class="item-source source-ironclaw">IronClaw</span><span class="item-source source-openclaw">OpenClaw</span><span class="item-source source-zeroclaw">ZeroClaw</span></div>
+        </div>
+        <div class="item-card" data-name="Local LLM Support" onclick="toggleItem(this)">
+          <div class="item-name">Suporte a LLM Local (Ollama)</div>
+          <div class="item-desc">Execute modelos de IA no seu próprio computador. Zero custo de API. Privacidade total. Sem necessidade de internet.</div>
+          <div class="item-sources"><span class="item-source source-openclaw">OpenClaw</span><span class="item-source source-zeroclaw">ZeroClaw</span><span class="item-source source-picoclaw">PicoClaw</span><span class="item-source source-agentzero">Agent Zero</span><span class="item-source source-nanobot">NanoBot</span></div>
+        </div>
+        <div class="item-card" data-name="Hardware IoT Control" onclick="toggleItem(this)">
+          <div class="item-name">Controle de Hardware / IoT</div>
+          <div class="item-desc">Controle dispositivos físicos: luzes, sensores, motores. A IA pode interagir com o mundo real através de pinos GPIO.</div>
+          <div class="item-sources"><span class="item-source source-picoclaw">PicoClaw</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Skills & Tools Aisle -->
+    <div class="aisle" data-category="skills">
+      <div class="aisle-header">
+        <span class="aisle-icon">&#x1f9f0;</span>
+        <h3>Skills Integradas e Ferramentas Prontas</h3>
+        <span class="aisle-count">O que vem pronto na caixa</span>
+      </div>
+      <div class="items-grid">
+
+        <!-- Productivity & Notes -->
+        <div class="item-card" data-name="Apple Notes Integration" onclick="toggleItem(this)">
+          <div class="item-name">Gerenciamento do Apple Notes</div>
+          <div class="item-desc">Crie, visualize, edite, exclua e pesquise Apple Notes diretamente do seu assistente de IA no macOS.</div>
+          <div class="item-sources"><span class="item-source source-openclaw">OpenClaw</span></div>
+        </div>
+        <div class="item-card" data-name="Apple Reminders Integration" onclick="toggleItem(this)">
+          <div class="item-name">Apple Reminders</div>
+          <div class="item-desc">Crie, liste, edite e conclua lembretes no Apple Reminders. Sua IA gerencia sua lista de tarefas.</div>
+          <div class="item-sources"><span class="item-source source-openclaw">OpenClaw</span></div>
+        </div>
+        <div class="item-card" data-name="Notion Integration" onclick="toggleItem(this)">
+          <div class="item-name">Páginas e Bancos de Dados do Notion</div>
+          <div class="item-desc">Crie e gerencie páginas, bancos de dados e blocos do Notion. Gerenciamento de espaço de trabalho com IA.</div>
+          <div class="item-sources"><span class="item-source source-openclaw">OpenClaw</span></div>
+        </div>
+        <div class="item-card" data-name="Obsidian Vault Integration" onclick="toggleItem(this)">
+          <div class="item-name">Automação do Vault do Obsidian</div>
+          <div class="item-desc">Trabalhe com vaults do Obsidian e automatize o gerenciamento de notas em markdown simples.</div>
+          <div class="item-sources"><span class="item-source source-openclaw">OpenClaw</span></div>
+        </div>
+        <div class="item-card" data-name="Trello Board Management" onclick="toggleItem(this)">
+          <div class="item-name">Gerenciamento de Quadros do Trello</div>
+          <div class="item-desc">Gerencie quadros, listas e cartões do Trello pela API. A IA cuida dos seus quadros de projeto.</div>
+          <div class="item-sources"><span class="item-source source-openclaw">OpenClaw</span></div>
+        </div>
+        <div class="item-card" data-name="Things 3 Task Manager" onclick="toggleItem(this)">
+          <div class="item-name">Gerenciador de Tarefas Things 3</div>
+          <div class="item-desc">Adicione, atualize e pesquise tarefas no aplicativo Things 3 no macOS.</div>
+          <div class="item-sources"><span class="item-source source-openclaw">OpenClaw</span></div>
+        </div>
+        <div class="item-card" data-name="Bear Notes Integration" onclick="toggleItem(this)">
+          <div class="item-name">Bear Notes</div>
+          <div class="item-desc">Crie, pesquise e gerencie notas no aplicativo de anotações Bear.</div>
+          <div class="item-sources"><span class="item-source source-openclaw">OpenClaw</span></div>
+        </div>
+
+        <!-- Google Workspace -->
+        <div class="item-card" data-name="Google Workspace Suite" onclick="toggleItem(this)">
+          <div class="item-name">Suite Google Workspace (Gmail, Calendar, Drive, Sheets, Docs, Slides)</div>
+          <div class="item-desc">Integração completa com o Google Workspace: envie e-mails, gerencie calendário, leia/escreva documentos, crie planilhas, construa apresentações.</div>
+          <div class="item-sources"><span class="item-source source-openclaw">OpenClaw</span><span class="item-source source-ironclaw">IronClaw</span></div>
+        </div>
+
+        <!-- Feishu/Lark -->
+        <div class="item-card" data-name="Feishu/Lark Suite" onclick="toggleItem(this)">
+          <div class="item-name">Suite Feishu / Lark (Docs, Drive, Wiki, Permissões)</div>
+          <div class="item-desc">Integração completa com Feishu/Lark: documentos, armazenamento em nuvem, wiki e gerenciamento de permissões para equipes da Ásia-Pacífico.</div>
+          <div class="item-sources"><span class="item-source source-openclaw">OpenClaw</span></div>
+        </div>
+
+        <!-- GitHub -->
+        <div class="item-card" data-name="GitHub Integration Skill" onclick="toggleItem(this)">
+          <div class="item-name">GitHub (Issues, PRs, CI, API)</div>
+          <div class="item-desc">Fluxo de trabalho completo do GitHub: gerencie issues, revise pull requests, acione execuções de CI, consulte a API. Gerenciamento de código pelo chat.</div>
+          <div class="item-sources"><span class="item-source source-openclaw">OpenClaw</span><span class="item-source source-nanobot">NanoBot</span><span class="item-source source-picoclaw">PicoClaw</span><span class="item-source source-ironclaw">IronClaw</span><span class="item-source source-zeroclaw">ZeroClaw</span></div>
+        </div>
+
+        <!-- PR Workflow -->
+        <div class="item-card" data-name="PR Review/Prepare/Merge Workflow" onclick="toggleItem(this)">
+          <div class="item-name">Revisão + Preparação + Merge Automatizados de PR</div>
+          <div class="item-desc">Fluxo de trabalho de pull request em três etapas: a IA revisa o código, prepara as alterações e faz o merge após validação. Pipeline completo de revisão de código.</div>
+          <div class="item-sources"><span class="item-source source-openclaw">OpenClaw</span></div>
+        </div>
+
+        <!-- Communication Skills -->
+        <div class="item-card" data-name="X/Twitter Integration" onclick="toggleItem(this)">
+          <div class="item-name">Publicação no X / Twitter</div>
+          <div class="item-desc">Publique tweets, curta, responda, retweete e cite via seu assistente de IA.</div>
+          <div class="item-sources"><span class="item-source source-nanoclaw">NanoClaw</span></div>
+        </div>
+        <div class="item-card" data-name="Gmail Skill" onclick="toggleItem(this)">
+          <div class="item-name">Leitura/Envio de Gmail (Independente)</div>
+          <div class="item-desc">Leia, envie e gerencie o Gmail. Funciona como ferramenta (sob demanda) ou como canal (e-mail aciona a IA).</div>
+          <div class="item-sources"><span class="item-source source-nanoclaw">NanoClaw</span><span class="item-source source-ironclaw">IronClaw</span></div>
+        </div>
+        <div class="item-card" data-name="iMessage Integration" onclick="toggleItem(this)">
+          <div class="item-name">iMessage / SMS no macOS</div>
+          <div class="item-desc">Envie e gerencie iMessages e SMS com histórico de chat e monitoramento de mensagens no macOS.</div>
+          <div class="item-sources"><span class="item-source source-openclaw">OpenClaw</span></div>
+        </div>
+        <div class="item-card" data-name="Proactive User Messaging" onclick="toggleItem(this)">
+          <div class="item-name">Mensagens Proativas ao Usuário</div>
+          <div class="item-desc">A IA envia mensagens para você sem esperar pelo seu prompt. Alertas, lembretes, atualizações de status enviados ao seu chat.</div>
+          <div class="item-sources"><span class="item-source source-tinyclaw">TinyClaw</span><span class="item-source source-agentzero">Agent Zero</span></div>
+        </div>
+
+        <!-- Voice & Media -->
+        <div class="item-card" data-name="Whisper Speech-to-Text" onclick="toggleItem(this)">
+          <div class="item-name">Whisper Speech-to-Text</div>
+          <div class="item-desc">Converta gravações de voz em texto. Funciona localmente (sem chave de API) ou via OpenAI Whisper API.</div>
+          <div class="item-sources"><span class="item-source source-openclaw">OpenClaw</span><span class="item-source source-nanoclaw">NanoClaw</span></div>
+        </div>
+        <div class="item-card" data-name="ElevenLabs Text-to-Speech" onclick="toggleItem(this)">
+          <div class="item-name">Texto para Fala (ElevenLabs + Local)</div>
+          <div class="item-desc">Converta texto em fala natural. Na nuvem via ElevenLabs ou offline via sherpa-onnx. Sua IA fala de volta.</div>
+          <div class="item-sources"><span class="item-source source-openclaw">OpenClaw</span></div>
+        </div>
+        <div class="item-card" data-name="Image Generation" onclick="toggleItem(this)">
+          <div class="item-name">Geração de Imagens com IA</div>
+          <div class="item-desc">Gere imagens via OpenAI API ou Google Gemini. Suporta inpainting, máscara e geração em lote.</div>
+          <div class="item-sources"><span class="item-source source-openclaw">OpenClaw</span><span class="item-source source-tinyclaw">TinyClaw</span></div>
+        </div>
+        <div class="item-card" data-name="Video Frame Extraction" onclick="toggleItem(this)">
+          <div class="item-name">Extração de Frames de Vídeo</div>
+          <div class="item-desc">Extraia frames ou clipes curtos de vídeos usando ffmpeg. A IA pode analisar conteúdo de vídeo.</div>
+          <div class="item-sources"><span class="item-source source-openclaw">OpenClaw</span></div>
+        </div>
+        <div class="item-card" data-name="Spotify Player Control" onclick="toggleItem(this)">
+          <div class="item-name">Controle do Player Spotify</div>
+          <div class="item-desc">Controle a reprodução do Spotify e pesquise músicas pelo seu assistente de IA.</div>
+          <div class="item-sources"><span class="item-source source-openclaw">OpenClaw</span></div>
+        </div>
+
+        <!-- Content & Research -->
+        <div class="item-card" data-name="URL/Video/Podcast Summarizer" onclick="toggleItem(this)">
+          <div class="item-name">Resumidor de URL / Vídeo / Podcast</div>
+          <div class="item-desc">Resuma páginas web, vídeos do YouTube, podcasts e arquivos locais. Obtenha o essencial sem ler/assistir tudo.</div>
+          <div class="item-sources"><span class="item-source source-openclaw">OpenClaw</span><span class="item-source source-nanobot">NanoBot</span><span class="item-source source-picoclaw">PicoClaw</span></div>
+        </div>
+        <div class="item-card" data-name="Blog/RSS Watcher" onclick="toggleItem(this)">
+          <div class="item-name">Monitor de Blogs e Feeds RSS</div>
+          <div class="item-desc">Monitore blogs e feeds RSS/Atom para novas atualizações. Seja notificado quando suas fontes favoritas publicarem.</div>
+          <div class="item-sources"><span class="item-source source-openclaw">OpenClaw</span></div>
+        </div>
+        <div class="item-card" data-name="Weather Skill" onclick="toggleItem(this)">
+          <div class="item-name">Previsão do Tempo (Sem Chave de API)</div>
+          <div class="item-desc">Obtenha o clima atual e previsões usando serviços gratuitos. Sem chave de API necessária.</div>
+          <div class="item-sources"><span class="item-source source-openclaw">OpenClaw</span><span class="item-source source-nanobot">NanoBot</span><span class="item-source source-picoclaw">PicoClaw</span></div>
+        </div>
+        <div class="item-card" data-name="Google Places Search" onclick="toggleItem(this)">
+          <div class="item-name">Busca no Google Places</div>
+          <div class="item-desc">Pesquise empresas, restaurantes e locais. Obtenha detalhes, avaliações e classificações.</div>
+          <div class="item-sources"><span class="item-source source-openclaw">OpenClaw</span></div>
+        </div>
+        <div class="item-card" data-name="Document Query Tool" onclick="toggleItem(this)">
+          <div class="item-name">Perguntas e Respostas sobre Documentos (PDF, Planilha, HTML)</div>
+          <div class="item-desc">Faça upload de documentos e faça perguntas sobre eles. A IA extrai respostas dos seus arquivos.</div>
+          <div class="item-sources"><span class="item-source source-agentzero">Agent Zero</span></div>
+        </div>
+
+        <!-- Smart Home & IoT -->
+        <div class="item-card" data-name="Philips Hue Lights" onclick="toggleItem(this)">
+          <div class="item-name">Controle de Luzes Philips Hue</div>
+          <div class="item-desc">Controle suas luzes e cenas Philips Hue via comandos de IA. "Diminua a sala de estar para 30%."</div>
+          <div class="item-sources"><span class="item-source source-openclaw">OpenClaw</span></div>
+        </div>
+        <div class="item-card" data-name="Sonos Speaker Control" onclick="toggleItem(this)">
+          <div class="item-name">Controle de Caixas Sonos</div>
+          <div class="item-desc">Controle caixas Sonos: reprodução, volume, agrupamento e descoberta.</div>
+          <div class="item-sources"><span class="item-source source-openclaw">OpenClaw</span></div>
+        </div>
+        <div class="item-card" data-name="Eight Sleep Pod Control" onclick="toggleItem(this)">
+          <div class="item-name">Controle do Colchão Eight Sleep Pod</div>
+          <div class="item-desc">Ajuste a temperatura do seu colchão inteligente, defina alarmes e gerencie horários de sono.</div>
+          <div class="item-sources"><span class="item-source source-openclaw">OpenClaw</span></div>
+        </div>
+        <div class="item-card" data-name="I2C/SPI Hardware Control" onclick="toggleItem(this)">
+          <div class="item-name">Controle de Barramento de Hardware I2C / SPI</div>
+          <div class="item-desc">Leia sensores e controle periféricos de hardware em placas embarcadas. A IA conversa com dispositivos físicos.</div>
+          <div class="item-sources"><span class="item-source source-picoclaw">PicoClaw</span></div>
+        </div>
+        <div class="item-card" data-name="Security Camera Snapshots" onclick="toggleItem(this)">
+          <div class="item-name">Capturas de Câmeras de Segurança</div>
+          <div class="item-desc">Capture frames e clipes de vídeo de câmeras RTSP/ONVIF. A IA monitora seus feeds de segurança.</div>
+          <div class="item-sources"><span class="item-source source-openclaw">OpenClaw</span></div>
+        </div>
+
+        <!-- Development & System -->
+        <div class="item-card" data-name="Tmux Remote Control" onclick="toggleItem(this)">
+          <div class="item-name">Controle Remoto de Sessões Tmux</div>
+          <div class="item-desc">Envie teclas para sessões de terminal e extraia saídas. A IA opera ferramentas CLI de forma interativa.</div>
+          <div class="item-sources"><span class="item-source source-openclaw">OpenClaw</span><span class="item-source source-nanobot">NanoBot</span><span class="item-source source-picoclaw">PicoClaw</span></div>
+        </div>
+        <div class="item-card" data-name="Coding Agent Orchestration" onclick="toggleItem(this)">
+          <div class="item-name">Orquestração de Agentes de Codificação</div>
+          <div class="item-desc">Execute Codex CLI, Claude Code ou outros agentes de codificação programaticamente. A IA gerencia codificadores de IA.</div>
+          <div class="item-sources"><span class="item-source source-openclaw">OpenClaw</span></div>
+        </div>
+        <div class="item-card" data-name="Composio 1000+ App Integration" onclick="toggleItem(this)">
+          <div class="item-name">Composio (Conector de 1000+ Aplicativos)</div>
+          <div class="item-desc">Acesso OAuth com um clique a 1000+ aplicativos: Gmail, Notion, GitHub, Slack e muito mais via Composio.</div>
+          <div class="item-sources"><span class="item-source source-zeroclaw">ZeroClaw</span></div>
+        </div>
+        <div class="item-card" data-name="Okta Identity Management" onclick="toggleItem(this)">
+          <div class="item-name">Gerenciamento de Identidade Okta</div>
+          <div class="item-desc">Gerencie usuários, grupos e autenticação com a plataforma de identidade empresarial Okta.</div>
+          <div class="item-sources"><span class="item-source source-ironclaw">IronClaw</span></div>
+        </div>
+
+        <!-- Memory Tools -->
+        <div class="item-card" data-name="Memory Store/Recall/Forget" onclick="toggleItem(this)">
+          <div class="item-name">Armazenar / Recuperar / Esquecer Memória</div>
+          <div class="item-desc">Ferramentas dedicadas para salvar, pesquisar e excluir memórias. A IA gerencia sua própria base de conhecimento.</div>
+          <div class="item-sources"><span class="item-source source-zeroclaw">ZeroClaw</span><span class="item-source source-ironclaw">IronClaw</span><span class="item-source source-agentzero">Agent Zero</span></div>
+        </div>
+        <div class="item-card" data-name="Git Operations Tool" onclick="toggleItem(this)">
+          <div class="item-name">Operações Git (Status, Diff, Log, Commit)</div>
+          <div class="item-desc">Operações Git estruturadas com saída JSON analisada. A IA gerencia seus repositórios de código.</div>
+          <div class="item-sources"><span class="item-source source-zeroclaw">ZeroClaw</span></div>
+        </div>
+        <div class="item-card" data-name="Screenshot & Vision Tools" onclick="toggleItem(this)">
+          <div class="item-name">Captura de Tela e Análise Visual</div>
+          <div class="item-desc">Capture telas, leia metadados de imagem e analise conteúdo visual. A IA pode ver sua tela.</div>
+          <div class="item-sources"><span class="item-source source-zeroclaw">ZeroClaw</span><span class="item-source source-agentzero">Agent Zero</span></div>
+        </div>
+
+        <!-- Job & Routine Management -->
+        <div class="item-card" data-name="Job/Routine Management" onclick="toggleItem(this)">
+          <div class="item-name">Gerenciador de Jobs e Rotinas em Segundo Plano</div>
+          <div class="item-desc">Crie, liste, verifique o status e cancele jobs em segundo plano. Agende rotinas com cron, webhook ou gatilhos de eventos.</div>
+          <div class="item-sources"><span class="item-source source-ironclaw">IronClaw</span></div>
+        </div>
+        <div class="item-card" data-name="Extension Marketplace" onclick="toggleItem(this)">
+          <div class="item-name">Marketplace de Extensões (Buscar/Instalar/Autenticar)</div>
+          <div class="item-desc">Navegue, instale, autentique e ative extensões de um marketplace. Expanda sua IA na hora.</div>
+          <div class="item-sources"><span class="item-source source-ironclaw">IronClaw</span><span class="item-source source-openclaw">OpenClaw</span></div>
+        </div>
+
+        <!-- Food & Lifestyle -->
+        <div class="item-card" data-name="Food Delivery Ordering" onclick="toggleItem(this)">
+          <div class="item-name">Pedido e Rastreamento de Delivery de Comida</div>
+          <div class="item-desc">Repita pedidos de delivery e acompanhe o status/ETA do pedido. Peça jantar pelo chat.</div>
+          <div class="item-sources"><span class="item-source source-openclaw">OpenClaw</span></div>
+        </div>
+
+        <!-- Skill Creation -->
+        <div class="item-card" data-name="Skill Creator Tool" onclick="toggleItem(this)">
+          <div class="item-name">Criador de Skills (Construa o Seu)</div>
+          <div class="item-desc">Framework para criar e empacotar novas skills com scripts, referências e assets. Expanda as habilidades da sua IA.</div>
+          <div class="item-sources"><span class="item-source source-openclaw">OpenClaw</span><span class="item-source source-nanobot">NanoBot</span><span class="item-source source-picoclaw">PicoClaw</span><span class="item-source source-tinyclaw">TinyClaw</span></div>
+        </div>
+
+        <!-- Agent Zero Unique -->
+        <div class="item-card" data-name="Behaviour Adjustment Tool" onclick="toggleItem(this)">
+          <div class="item-name">Ajuste de Comportamento em Tempo Real</div>
+          <div class="item-desc">Modifique e atualize as regras de comportamento da IA no meio da conversa. A IA reescreve suas próprias instruções na hora.</div>
+          <div class="item-sources"><span class="item-source source-agentzero">Agent Zero</span></div>
+        </div>
+        <div class="item-card" data-name="Agent-to-Agent Communication" onclick="toggleItem(this)">
+          <div class="item-name">Comunicação Agente-a-Agente (A2A)</div>
+          <div class="item-desc">Uma instância do Agent Zero conversa com outra. Fluxos de trabalho distribuídos entre múltiplos agentes isolados.</div>
+          <div class="item-sources"><span class="item-source source-agentzero">Agent Zero</span></div>
+        </div>
+        <div class="item-card" data-name="SearXNG Private Search" onclick="toggleItem(this)">
+          <div class="item-name">Busca Web Privada SearXNG</div>
+          <div class="item-desc">Motor de busca web auto-hospedado. Sem rastreamento, sem chaves de API. Privacidade total na busca.</div>
+          <div class="item-sources"><span class="item-source source-agentzero">Agent Zero</span></div>
+        </div>
+
+        <!-- Agent Profiles -->
+        <div class="item-card" data-name="Pre-built Agent Profiles" onclick="toggleItem(this)">
+          <div class="item-name">Perfis de Agente Pré-construídos (Desenvolvedor, Pesquisador, Hacker)</div>
+          <div class="item-desc">Alterne a persona da sua IA instantaneamente. Modo Desenvolvedor para codificação, modo Pesquisador para análise e muito mais.</div>
+          <div class="item-sources"><span class="item-source source-agentzero">Agent Zero</span></div>
+        </div>
+
+        <!-- Nostr / Web3 -->
+        <div class="item-card" data-name="Nostr Protocol" onclick="toggleItem(this)">
+          <div class="item-name">Mensagens Criptografadas Nostr</div>
+          <div class="item-desc">Conecte-se ao protocolo descentralizado Nostr para mensagens diretas criptografadas. Comunicação nativa em Web3.</div>
+          <div class="item-sources"><span class="item-source source-openclaw">OpenClaw</span></div>
+        </div>
+
+        <!-- Documentation -->
+        <div class="item-card" data-name="Mintlify Docs Builder" onclick="toggleItem(this)">
+          <div class="item-name">Construtor de Documentação Mintlify</div>
+          <div class="item-desc">Construa e mantenha sites de documentação a partir de arquivos markdown. A IA escreve seu site de docs.</div>
+          <div class="item-sources"><span class="item-source source-openclaw">OpenClaw</span></div>
+        </div>
+        <div class="item-card" data-name="PDF Editor Skill" onclick="toggleItem(this)">
+          <div class="item-name">Edição de PDF com Linguagem Natural</div>
+          <div class="item-desc">Edite PDFs descrevendo o que deseja alterar. "Mova o logotipo para o canto superior direito e mude a data."</div>
+          <div class="item-sources"><span class="item-source source-openclaw">OpenClaw</span></div>
+        </div>
+
+        <!-- Passwords -->
+        <div class="item-card" data-name="1Password Integration" onclick="toggleItem(this)">
+          <div class="item-name">Recuperação de Segredos do 1Password</div>
+          <div class="item-desc">Recupere credenciais e segredos do seu cofre 1Password com segurança via CLI.</div>
+          <div class="item-sources"><span class="item-source source-openclaw">OpenClaw</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Architecture Aisle -->
+    <div class="aisle" data-category="architecture">
+      <div class="aisle-header">
+        <span class="aisle-icon">&#x1f3d7;</span>
+        <h3>Padrões de Arquitetura</h3>
+        <span class="aisle-count">Como estruturar seu framework</span>
+      </div>
+      <div class="items-grid">
+        <div class="item-card" data-name="Trait-Based Modularity" onclick="toggleItem(this)">
+          <div class="item-name">Modularidade Baseada em Traits</div>
+          <div class="item-desc">Cada componente é definido por um contrato. Troque implementações sem tocar em outros códigos. O padrão de extensibilidade mais limpo.</div>
+          <div class="item-sources"><span class="item-source source-zeroclaw">ZeroClaw</span><span class="item-source source-ironclaw">IronClaw</span></div>
+        </div>
+        <div class="item-card" data-name="Message Bus Architecture" onclick="toggleItem(this)">
+          <div class="item-name">Arquitetura de Barramento de Mensagens</div>
+          <div class="item-desc">Canais e agentes se comunicam por uma rodovia de mensagens central. Separação limpa, fácil de adicionar novos canais.</div>
+          <div class="item-sources"><span class="item-source source-nanobot">NanoBot</span></div>
+        </div>
+        <div class="item-card" data-name="File-Based Queue" onclick="toggleItem(this)">
+          <div class="item-name">Fila de Mensagens Baseada em Arquivos</div>
+          <div class="item-desc">Mensagens armazenadas como arquivos que passam por diretórios (recebendo > processando > enviando). Simples, confiável, sem banco de dados.</div>
+          <div class="item-sources"><span class="item-source source-tinyclaw">TinyClaw</span></div>
+        </div>
+        <div class="item-card" data-name="Gateway WebSocket Hub" onclick="toggleItem(this)">
+          <div class="item-name">Hub WebSocket Gateway</div>
+          <div class="item-desc">Servidor central ao qual todos os canais se conectam via WebSockets em tempo real. O padrão de "torre de controle".</div>
+          <div class="item-sources"><span class="item-source source-openclaw">OpenClaw</span><span class="item-source source-ironclaw">IronClaw</span></div>
+        </div>
+        <div class="item-card" data-name="Dual Database Backend" onclick="toggleItem(this)">
+          <div class="item-name">Backend de Banco de Dados Duplo</div>
+          <div class="item-desc">Use PostgreSQL para produção, SQLite para desenvolvimento. Mesmo código, troque com uma flag de configuração. O melhor dos dois mundos.</div>
+          <div class="item-sources"><span class="item-source source-ironclaw">IronClaw</span></div>
+        </div>
+        <div class="item-card" data-name="Project Workspace Isolation" onclick="toggleItem(this)">
+          <div class="item-name">Isolamento de Espaço de Trabalho por Projeto</div>
+          <div class="item-desc">Espaços de trabalho separados por cliente/projeto. Cada um tem sua própria memória, segredos e instruções. Sem mistura de dados.</div>
+          <div class="item-sources"><span class="item-source source-agentzero">Agent Zero</span><span class="item-source source-nanoclaw">NanoClaw</span></div>
+        </div>
+        <div class="item-card" data-name="Single Binary Deployment" onclick="toggleItem(this)">
+          <div class="item-name">Implantação com Binário Único</div>
+          <div class="item-desc">Um arquivo. Sem dependências. Copie para qualquer lugar e funciona. A história de implantação mais simples possível.</div>
+          <div class="item-sources"><span class="item-source source-picoclaw">PicoClaw</span><span class="item-source source-zeroclaw">ZeroClaw</span></div>
+        </div>
+        <div class="item-card" data-name="Computer as Tool" onclick="toggleItem(this)">
+          <div class="item-name">Paradigma "Computador como Ferramenta"</div>
+          <div class="item-desc">Em vez de integrações pré-construídas, a IA escreve código na hora para realizar tarefas. Infinitamente flexível, sem necessidade de manutenção.</div>
+          <div class="item-sources"><span class="item-source source-agentzero">Agent Zero</span></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- COMPARISON TABLE -->
+<section id="comparison" class="container">
+  <h2 style="margin-bottom:0.5rem">Comparação Lado a Lado</h2>
+  <p style="color:var(--text-dim);margin-bottom:2rem">Matriz de funcionalidades em todos os frameworks. Verde = suportado, amarelo = parcial, cinza = não disponível.</p>
+  <div class="comparison-table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Funcionalidade</th>
+          <th style="color:#6c63ff">OpenClaw</th>
+          <th style="color:#ef5350">ZeroClaw</th>
+          <th style="color:#00d4aa">NanoClaw</th>
+          <th style="color:#ffa726">NanoBot</th>
+          <th style="color:#42a5f5">PicoClaw</th>
+          <th style="color:#90a4ae">IronClaw</th>
+          <th style="color:#ab47bc">TinyClaw</th>
+          <th style="color:#66bb6a">Agent Zero</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Linguagem</td><td>TypeScript</td><td>Rust</td><td>TypeScript</td><td>Python</td><td>Go</td><td>Rust</td><td>TS/Bash</td><td>Python</td></tr>
+        <tr><td>WhatsApp</td><td class="cell-yes">Sim</td><td class="cell-yes">Sim</td><td class="cell-best">Principal</td><td class="cell-yes">Sim</td><td class="cell-yes">Sim</td><td class="cell-partial">Planejado</td><td class="cell-yes">Sim</td><td class="cell-no">-</td></tr>
+        <tr><td>Telegram</td><td class="cell-yes">Sim</td><td class="cell-yes">Sim</td><td class="cell-partial">Via skill</td><td class="cell-yes">Sim</td><td class="cell-yes">Sim</td><td class="cell-yes">Sim</td><td class="cell-yes">Sim</td><td class="cell-no">-</td></tr>
+        <tr><td>Discord</td><td class="cell-yes">Sim</td><td class="cell-yes">Sim</td><td class="cell-no">-</td><td class="cell-yes">Sim</td><td class="cell-yes">Sim</td><td class="cell-yes">Sim</td><td class="cell-yes">Sim</td><td class="cell-no">-</td></tr>
+        <tr><td>Slack</td><td class="cell-yes">Sim</td><td class="cell-yes">Sim</td><td class="cell-partial">Via skill</td><td class="cell-yes">Sim</td><td class="cell-yes">Sim</td><td class="cell-yes">Sim</td><td class="cell-no">-</td><td class="cell-no">-</td></tr>
+        <tr><td>Interface Web</td><td class="cell-yes">Sim</td><td class="cell-no">-</td><td class="cell-no">-</td><td class="cell-no">-</td><td class="cell-no">-</td><td class="cell-yes">Sim</td><td class="cell-no">-</td><td class="cell-yes">Sim</td></tr>
+        <tr><td>Controle por Voz</td><td class="cell-best">Palavra de Ativação</td><td class="cell-no">-</td><td class="cell-no">-</td><td class="cell-no">-</td><td class="cell-partial">Via Groq</td><td class="cell-no">-</td><td class="cell-no">-</td><td class="cell-no">-</td></tr>
+        <tr><td>Canvas Visual</td><td class="cell-best">Sim</td><td class="cell-no">-</td><td class="cell-no">-</td><td class="cell-no">-</td><td class="cell-no">-</td><td class="cell-no">-</td><td class="cell-no">-</td><td class="cell-no">-</td></tr>
+        <tr><td>Multi-Agente</td><td class="cell-yes">Sim</td><td class="cell-partial">Config</td><td class="cell-yes">Enxames</td><td class="cell-partial">Spawn</td><td class="cell-partial">Spawn</td><td class="cell-yes">Paralelo</td><td class="cell-best">Equipes</td><td class="cell-yes">Hierarquia</td></tr>
+        <tr><td>Agendamento Cron</td><td class="cell-yes">Sim</td><td class="cell-yes">Sim</td><td class="cell-yes">Sim</td><td class="cell-yes">Sim</td><td class="cell-yes">Sim</td><td class="cell-yes">Sim</td><td class="cell-yes">Sim</td><td class="cell-partial">Via código</td></tr>
+        <tr><td>Heartbeat</td><td class="cell-yes">Sim</td><td class="cell-yes">Sim</td><td class="cell-no">-</td><td class="cell-yes">Sim</td><td class="cell-yes">Sim</td><td class="cell-yes">Sim</td><td class="cell-yes">Sim</td><td class="cell-no">-</td></tr>
+        <tr><td>Controle de Navegador</td><td class="cell-yes">CDP</td><td class="cell-partial">WebDriver</td><td class="cell-yes">Chromium</td><td class="cell-no">-</td><td class="cell-no">-</td><td class="cell-partial">Visão</td><td class="cell-yes">CLI tool</td><td class="cell-yes">Visão</td></tr>
+        <tr><td>Suporte MCP</td><td class="cell-yes">Sim</td><td class="cell-no">-</td><td class="cell-no">-</td><td class="cell-yes">Sim</td><td class="cell-no">-</td><td class="cell-yes">Sim</td><td class="cell-no">-</td><td class="cell-yes">Sim</td></tr>
+        <tr><td>Skills/Plugins</td><td class="cell-best">SDK + 5.7K</td><td class="cell-yes">TOML</td><td class="cell-yes">Claude Code</td><td class="cell-yes">Markdown</td><td class="cell-yes">Markdown</td><td class="cell-yes">WASM</td><td class="cell-yes">Pasta</td><td class="cell-yes">SKILL.md</td></tr>
+        <tr><td>Tipo de Sandbox</td><td class="cell-partial">Aprovação</td><td class="cell-yes">Landlock</td><td class="cell-best">Container VM</td><td class="cell-partial">Workspace</td><td class="cell-partial">Workspace</td><td class="cell-best">WASM</td><td class="cell-partial">Dir por agente</td><td class="cell-yes">Docker</td></tr>
+        <tr><td>Sistema de Memória</td><td class="cell-yes">Embeddings</td><td class="cell-best">Híbrido FTS+Vec</td><td class="cell-yes">CLAUDE.md</td><td class="cell-yes">2 Camadas</td><td class="cell-yes">2 Camadas</td><td class="cell-best">Híbrido FTS+Vec</td><td class="cell-partial">Por agente</td><td class="cell-best">Vetor+Soluções</td></tr>
+        <tr><td>LLM Local</td><td class="cell-yes">Ollama</td><td class="cell-yes">Ollama+vLLM</td><td class="cell-no">-</td><td class="cell-yes">Ollama+vLLM</td><td class="cell-yes">Ollama+vLLM</td><td class="cell-yes">Ollama</td><td class="cell-no">-</td><td class="cell-yes">Ollama+LM Studio</td></tr>
+        <tr><td>Provedores de IA</td><td>6+</td><td class="cell-best">22+</td><td>1 (Claude)</td><td>13+</td><td>7+</td><td>NEAR AI</td><td>2</td><td class="cell-best">20+</td></tr>
+        <tr><td>Segredos Criptografados</td><td class="cell-partial">Keychain</td><td class="cell-best">ChaCha20</td><td class="cell-no">-</td><td class="cell-partial">chmod 600</td><td class="cell-no">-</td><td class="cell-yes">Keychain</td><td class="cell-no">-</td><td class="cell-yes">secrets.env</td></tr>
+        <tr><td>Uso de RAM</td><td>~1GB</td><td class="cell-best">&lt;5MB</td><td>~200MB</td><td>~100MB</td><td class="cell-best">&lt;10MB</td><td>~50MB</td><td>~300MB</td><td>~500MB</td></tr>
+        <tr><td>IoT/Hardware</td><td class="cell-no">-</td><td class="cell-no">-</td><td class="cell-no">-</td><td class="cell-no">-</td><td class="cell-best">GPIO/I2C/SPI</td><td class="cell-no">-</td><td class="cell-no">-</td><td class="cell-no">-</td></tr>
+        <tr><td>Apps Mobile</td><td class="cell-best">iOS+Android</td><td class="cell-no">-</td><td class="cell-no">-</td><td class="cell-no">-</td><td class="cell-no">-</td><td class="cell-no">-</td><td class="cell-no">-</td><td class="cell-no">-</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ARCHITECTURE DIAGRAMS -->
+<section id="architecture" class="container">
+  <h2 style="margin-bottom:0.5rem">Padrões de Arquitetura</h2>
+  <p style="color:var(--text-dim);margin-bottom:2rem">Como cada framework é estruturado internamente. Estes são os blueprints que você seguiria.</p>
+
+  <div class="arch-grid">
+    <div class="arch-card">
+      <div class="arch-card-header"><div class="fw-icon" style="width:36px;height:36px;font-size:1rem;background:linear-gradient(135deg,#6c63ff,#8b5cf6)">OC</div><h4>OpenClaw: Hub Gateway</h4></div>
+      <div class="arch-body"><div class="arch-diagram"><span class="highlight">          CHANNELS</span>                    <span class="highlight2">AGENTS</span>
+  WhatsApp  Telegram  Slack       Agent A  Agent B
+  Discord   iMessage  WebChat     (Work)   (Personal)
+      \       |       /               \       /
+       \      |      /                 \     /
+        v     v     v                   v   v
+       <span class="highlight3">+------------------+      +------------------+</span>
+       <span class="highlight3">|     GATEWAY       |------|   SESSION STORE   |</span>
+       <span class="highlight3">|  (WebSocket Hub)  |      |  (JSONL files)    |</span>
+       <span class="highlight3">+------------------+      +------------------+</span>
+              |
+     +--------+--------+
+     |        |        |
+  <span class="highlight">TOOLS</span>   <span class="highlight2">CANVAS</span>   <span class="highlight3">VOICE</span>
+  Browser  Live UI   Wake Word
+  Files    Diagrams  TTS/STT
+  Shell    React     ElevenLabs</div></div>
+    </div>
+
+    <div class="arch-card">
+      <div class="arch-card-header"><div class="fw-icon" style="width:36px;height:36px;font-size:1rem;background:linear-gradient(135deg,#ef5350,#ff7043)">ZC</div><h4>ZeroClaw: Contratos de Trait</h4></div>
+      <div class="arch-body"><div class="arch-diagram">  <span class="highlight">config.toml</span> defines which implementations to use:
+
+  +-----------+   +-----------+   +----------+
+  | <span class="highlight">Provider</span>  |   | <span class="highlight2">Channel</span>   |   | <span class="highlight3">Memory</span>   |
+  | (trait)   |   | (trait)   |   | (trait)  |
+  +-----------+   +-----------+   +----------+
+       ^               ^              ^
+       |               |              |
+  +----+----+    +-----+-----+  +----+----+
+  |OpenAI   |    |Telegram   |  |SQLite   |
+  |Claude   |    |Discord    |  |Markdown |
+  |Ollama   |    |Slack      |  |None     |
+  |Gemini   |    |WhatsApp   |  +---------+
+  |22 more..|    |Email      |
+  +---------+    |Webhook    |
+                 +-----------+
+
+  <span class="highlight2">Swap ANY piece without touching agent code</span></div></div>
+    </div>
+
+    <div class="arch-card">
+      <div class="arch-card-header"><div class="fw-icon" style="width:36px;height:36px;font-size:1rem;background:linear-gradient(135deg,#00d4aa,#26c6da)">NC</div><h4>NanoClaw: Isolamento por Container</h4></div>
+      <div class="arch-body"><div class="arch-diagram">  <span class="highlight">HOST (macOS/Linux)</span>
+  +--------------------------------------------+
+  | WhatsApp Connection (Baileys)              |
+  | SQLite Message Store                       |
+  | Message Polling Loop                       |
+  | Task Scheduler                             |
+  +--------------------------------------------+
+           |              |              |
+  <span class="highlight2">+-- Container --+</span>  <span class="highlight2">+-- Container --+</span>  <span class="highlight2">+-- Container --+</span>
+  <span class="highlight2">| Work Group    |</span>  <span class="highlight2">| Family Group  |</span>  <span class="highlight2">| Admin Chat   |</span>
+  <span class="highlight2">| Claude SDK    |</span>  <span class="highlight2">| Claude SDK    |</span>  <span class="highlight2">| Claude SDK   |</span>
+  <span class="highlight2">| Own CLAUDE.md |</span>  <span class="highlight2">| Own CLAUDE.md |</span>  <span class="highlight2">| Full access  |</span>
+  <span class="highlight2">| Sandboxed FS  |</span>  <span class="highlight2">| Sandboxed FS  |</span>  <span class="highlight2">| All groups   |</span>
+  <span class="highlight2">+---------------+</span>  <span class="highlight2">+---------------+</span>  <span class="highlight2">+--------------+</span>
+
+  <span class="highlight3">Each group = isolated brain. Cannot see each other.</span></div></div>
+    </div>
+
+    <div class="arch-card">
+      <div class="arch-card-header"><div class="fw-icon" style="width:36px;height:36px;font-size:1rem;background:linear-gradient(135deg,#ab47bc,#ce93d8)">TC</div><h4>TinyClaw: Equipes de Agentes</h4></div>
+      <div class="arch-body"><div class="arch-diagram">  <span class="highlight">YOU</span> (via Discord / Telegram / WhatsApp)
+       |
+       v
+  +------------------+
+  | <span class="highlight2">Message Queue</span>     |  incoming/ -> processing/ -> outgoing/
+  | (File-Based)     |  Each agent picks from its own inbox
+  +------------------+
+       |
+  +----+----+----+----+
+  |         |         |
+  <span class="highlight3">@coder</span>   <span class="highlight3">@reviewer</span>  <span class="highlight3">@writer</span>
+  Claude   OpenAI    Claude
+  Opus     GPT-5     Sonnet
+  |         ^         ^
+  |         |         |
+  +---mention---------+  <span class="highlight">Agents hand off to each other</span>
+  "[@reviewer: check this code]"
+
+  <span class="highlight2">Parallel processing. Sequential per-agent.</span></div></div>
+    </div>
+
+    <div class="arch-card">
+      <div class="arch-card-header"><div class="fw-icon" style="width:36px;height:36px;font-size:1rem;background:linear-gradient(135deg,#607d8b,#90a4ae)">IC</div><h4>IronClaw: Segurança Zero-Trust</h4></div>
+      <div class="arch-body"><div class="arch-diagram">  <span class="highlight">Messages In</span>          <span class="highlight2">Security Layers</span>
+  CLI  Slack  Telegram     |
+       |                    v
+  +----v----+    +--------------------+
+  | Channel |    | <span class="highlight3">Prompt Injection</span>    |
+  | Manager |--->| <span class="highlight3">Pattern Detection</span>   |
+  +---------+    +--------------------+
+       |                    |
+  +----v----+    +--------------------+
+  | Job     |    | <span class="highlight2">WASM Sandbox</span>        |
+  | Scheduler--->| Capability Allowlist|
+  | (5+ //  |    | Rate Limiting       |
+  | jobs)   |    | Credential Inject   |
+  +---------+    +--------------------+
+       |                    |
+  +----v----+    +--------------------+
+  |  LLM    |    | <span class="highlight">Leak Detector</span>       |
+  | NEAR AI |    | Scans outputs for   |
+  | +Ollama |    | leaked secrets       |
+  +---------+    +--------------------+</div></div>
+    </div>
+
+    <div class="arch-card">
+      <div class="arch-card-header"><div class="fw-icon" style="width:36px;height:36px;font-size:1rem;background:linear-gradient(135deg,#66bb6a,#81c784)">A0</div><h4>Agent Zero: Loop de Aprendizado</h4></div>
+      <div class="arch-body"><div class="arch-diagram">  <span class="highlight">You ask a question</span>
+       |
+       v
+  +-----------+     +-----------+
+  | <span class="highlight2">Agent 0</span>   |---->| <span class="highlight3">Memory</span>    |
+  | (Main)    |<----| Search    |  "Have I solved this before?"
+  +-----------+     +-----------+
+       |
+  +----+----+
+  |         |
+  <span class="highlight2">Sub-Agent</span>  <span class="highlight2">Sub-Agent</span>    Delegation for
+  (Research)  (Code)      complex tasks
+  |         |
+  +----+----+
+       |
+  +----v----+     +-----------+
+  | <span class="highlight">Solution</span> |---->| <span class="highlight3">Memory</span>    |
+  | Found!  |     | <span class="highlight3">SAVE</span>      |  "Remember for next time"
+  +---------+     +-----------+
+
+  <span class="highlight2">Gets smarter with every interaction</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- BEST-FOR VERDICTS -->
+<section id="verdicts" class="container" style="padding-bottom:8rem">
+  <h2 style="margin-bottom:0.5rem">Veredictos: Melhor Para Cada Caso</h2>
+  <p style="color:var(--text-dim);margin-bottom:2rem">Guia rápido: qual framework escolher com base no que importa mais para você.</p>
+
+  <div class="verdict-grid">
+    <div class="verdict-card">
+      <h4>"Quero a solução mais completa"</h4>
+      <p>Completo, polido, com voz, canvas, apps mobile e 5.700+ plugins. A abordagem "iPhone".</p>
+      <div class="pick" style="color:#6c63ff">Escolha: OpenClaw</div>
+    </div>
+    <div class="verdict-card">
+      <h4>"Quero máxima eficiência"</h4>
+      <p>Menor pegada de memória, inicialização mais rápida, roda em hardware de $10. A abordagem "carro esportivo".</p>
+      <div class="pick" style="color:#ef5350">Escolha: ZeroClaw (Rust) ou PicoClaw (Go)</div>
+    </div>
+    <div class="verdict-card">
+      <h4>"Quero entender cada linha de código"</h4>
+      <p>Pequeno o suficiente para ler de uma vez. Sem complexidade oculta. A abordagem "livro aberto".</p>
+      <div class="pick" style="color:#00d4aa">Escolha: NanoClaw (5.2K linhas) ou NanoBot (4K linhas)</div>
+    </div>
+    <div class="verdict-card">
+      <h4>"Segurança é minha prioridade #1"</h4>
+      <p>Sandboxing WASM, defesa contra injeção de prompt, detecção de vazamentos, zero-trust. A abordagem "fortaleza".</p>
+      <div class="pick" style="color:#90a4ae">Escolha: IronClaw</div>
+    </div>
+    <div class="verdict-card">
+      <h4>"Quero equipes de IA que colaborem"</h4>
+      <p>Múltiplos agentes especializados passando trabalho uns para os outros. A abordagem de "pequena empresa".</p>
+      <div class="pick" style="color:#ab47bc">Escolha: TinyClaw ou Agent Zero</div>
+    </div>
+    <div class="verdict-card">
+      <h4>"Quero uma IA que aprenda ao longo do tempo"</h4>
+      <p>Lembra soluções, constrói conhecimento, fica mais inteligente. A abordagem de "cérebro em crescimento".</p>
+      <div class="pick" style="color:#66bb6a">Escolha: Agent Zero</div>
+    </div>
+    <div class="verdict-card">
+      <h4>"Uso principalmente o WhatsApp para negócios"</h4>
+      <p>Design WhatsApp-first com isolamento por grupo. Simples, seguro, criado para isso.</p>
+      <div class="pick" style="color:#00d4aa">Escolha: NanoClaw</div>
+    </div>
+    <div class="verdict-card">
+      <h4>"Quero controlar dispositivos IoT"</h4>
+      <p>Controle direto de pinos de hardware (GPIO, I2C, SPI). A IA encontra o mundo físico.</p>
+      <div class="pick" style="color:#42a5f5">Escolha: PicoClaw</div>
+    </div>
+    <div class="verdict-card">
+      <h4>"Quero máxima escolha de provedores de IA"</h4>
+      <p>Suporte a 20+ provedores de IA, troca fácil entre eles, use modelos locais gratuitamente.</p>
+      <div class="pick" style="color:#ef5350">Escolha: ZeroClaw (22+) ou Agent Zero (20+)</div>
+    </div>
+    <div class="verdict-card">
+      <h4>"Uso Python e quero estender facilmente"</h4>
+      <p>Código em Python com interfaces limpas para adicionar canais, ferramentas e provedores.</p>
+      <div class="pick" style="color:#ffa726">Escolha: NanoBot ou Agent Zero</div>
+    </div>
+    <div class="verdict-card">
+      <h4>"Preciso de ajuda para decidir / pesquisar"</h4>
+      <p>Base de conhecimento completa com calculadoras de custo, auditorias de segurança e 5.700+ exemplos de plugins.</p>
+      <div class="pick" style="color:#ff6b9d">Escolha: Awesome OpenClaw (o guia de recursos)</div>
+    </div>
+    <div class="verdict-card">
+      <h4>"Quero construir MEU PRÓPRIO framework customizado"</h4>
+      <p>Escolha as melhores ideias de todos os repositórios. Use esta página como sua lista de compras!</p>
+      <div class="pick" style="background:var(--gradient1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Escolha: Misture e combine de todos eles</div>
+    </div>
+  </div>
+</section>
+
+<!-- SHOPPING CART -->
+<div class="cart">
+  <button class="cart-btn" onclick="toggleCart()">
+    &#x1f6d2;
+    <span class="cart-count" id="cartCount">0</span>
+  </button>
+</div>
+
+<div class="cart-panel" id="cartPanel">
+  <div class="cart-panel-header">
+    <h3>Seus Ingredientes de Framework</h3>
+    <button class="cart-close" onclick="toggleCart()">&times;</button>
+  </div>
+  <div class="cart-items" id="cartItems">
+    <div class="cart-empty">Clique nos itens da mercearia para adicioná-los aqui.</div>
+  </div>
+  <div class="cart-export">
+    <button onclick="exportCart()">Exportar como Briefing Claude Code (.md)</button>
+  </div>
+</div>
+
+<script>
+// Cart state - stores rich objects {name, desc, sources, category}
+let cart = [];
+
+function getItemData(el) {
+  const name = el.dataset.name;
+  const desc = el.querySelector('.item-desc')?.textContent || '';
+  const sourceEls = el.querySelectorAll('.item-source');
+  const sources = Array.from(sourceEls).map(s => s.textContent.trim());
+  const aisle = el.closest('.aisle');
+  const category = aisle ? (aisle.querySelector('.aisle-header h3')?.textContent || 'Uncategorized') : 'Uncategorized';
+  return { name, desc, sources, category };
+}
+
+function toggleItem(el) {
+  const name = el.dataset.name;
+  if (el.classList.contains('selected')) {
+    el.classList.remove('selected');
+    cart = cart.filter(i => i.name !== name);
+  } else {
+    el.classList.add('selected');
+    cart.push(getItemData(el));
+  }
+  updateCart();
+}
+
+function updateCart() {
+  document.getElementById('cartCount').textContent = cart.length;
+  const container = document.getElementById('cartItems');
+  if (cart.length === 0) {
+    container.innerHTML = '<div class="cart-empty">Clique nos itens da mercearia para adicioná-los aqui.</div>';
+    return;
+  }
+  container.innerHTML = cart.map(item => `
+    <div class="cart-item" style="flex-direction:column;align-items:flex-start;gap:0.25rem">
+      <div style="display:flex;width:100%;align-items:center">
+        <span class="cart-item-name" style="font-weight:600">${item.name}</span>
+        <button class="cart-item-remove" onclick="removeFromCart('${item.name.replace(/'/g,"\\'")}')">&times;</button>
+      </div>
+      <div style="font-size:0.7rem;color:var(--text-dim)">${item.desc.substring(0, 80)}${item.desc.length > 80 ? '...' : ''}</div>
+      <div style="display:flex;gap:0.25rem;flex-wrap:wrap">${item.sources.map(s => '<span style="font-size:0.6rem;padding:0.1rem 0.3rem;border-radius:0.2rem;background:rgba(108,99,255,0.15);color:#a5a0ff">' + s + '</span>').join('')}</div>
+    </div>
+  `).join('');
+}
+
+function removeFromCart(name) {
+  cart = cart.filter(i => i.name !== name);
+  document.querySelectorAll('.item-card').forEach(el => {
+    if (el.dataset.name === name) el.classList.remove('selected');
+  });
+  updateCart();
+}
+
+function toggleCart() {
+  document.getElementById('cartPanel').classList.toggle('open');
+}
+
+function exportCart() {
+  if (cart.length === 0) { alert('Seu carrinho está vazio! Adicione algumas funcionalidades primeiro.'); return; }
+
+  // Group items by category
+  const grouped = {};
+  cart.forEach(item => {
+    if (!grouped[item.category]) grouped[item.category] = [];
+    grouped[item.category].push(item);
+  });
+
+  let md = "# My Custom AI Framework - Ingredient List\n\n";
+  md += "> **Purpose**: This document defines the selected features, skills, and architectural patterns\n";
+  md += "> for building a custom AI agent framework. Each item includes a description of what it does,\n";
+  md += "> which reference frameworks implement it, and enough context for Claude Code to understand\n";
+  md += "> the implementation requirements.\n";
+  md += ">\n";
+  md += "> **Reference repos**: Located at `/Users/marwankashef/Desktop/YouTube/OpenClaw Antidote/`\n";
+  md += "> **Full analysis**: See `FRAMEWORK-DEEP-DIVE.md` in the same directory.\n\n";
+  md += "---\n\n";
+  md += `**Total selected items: ${cart.length}**\n\n`;
+
+  Object.keys(grouped).forEach(category => {
+    md += `## ${category}\n\n`;
+    grouped[category].forEach((item, i) => {
+      md += `### ${i + 1}. ${item.name}\n\n`;
+      md += `**What it does**: ${item.desc}\n\n`;
+      md += `**Reference implementations**: ${item.sources.join(', ')}\n\n`;
+      // Add implementation hints based on source frameworks
+      const hints = [];
+      if (item.sources.includes('OpenClaw')) hints.push('OpenClaw (`./openclaw/`): TypeScript, check `skills/` and `extensions/` directories');
+      if (item.sources.includes('ZeroClaw')) hints.push('ZeroClaw (`./zeroclaw/`): Rust trait-based, check `src/tools/` directory');
+      if (item.sources.includes('NanoClaw')) hints.push('NanoClaw (`./nanoclaw/`): TypeScript 5.2K lines, check `.claude/skills/` and `container/skills/`');
+      if (item.sources.includes('NanoBot')) hints.push('NanoBot (`./nanobot/`): Python, check `nanobot/skills/` and `nanobot/agent/tools/`');
+      if (item.sources.includes('PicoClaw')) hints.push('PicoClaw (`./picoclaw/`): Go, check `workspace/skills/` and `pkg/tools/`');
+      if (item.sources.includes('IronClaw')) hints.push('IronClaw (`./ironclaw/`): Rust + WASM, check `src/tools/builtin/` and `tools-src/`');
+      if (item.sources.includes('TinyClaw')) hints.push('TinyClaw (`./tinyclaw/`): TS/Bash, check `.agents/skills/` directory');
+      if (item.sources.includes('Agent Zero')) hints.push('Agent Zero (`./agent-zero/`): Python, check `python/tools/` and `python/extensions/`');
+      if (hints.length > 0) {
+        md += `**Where to find reference code**:\n`;
+        hints.forEach(h => { md += `- ${h}\n`; });
+        md += '\n';
+      }
+      md += '---\n\n';
+    });
+  });
+
+  md += "## Implementation Notes for Claude Code\n\n";
+  md += "When building this framework, follow these principles:\n\n";
+  md += "1. **Start with the reference code** - Each item above lists which repos implement it. Read those implementations first.\n";
+  md += "2. **Prefer simplicity** - If NanoClaw (5.2K lines) and OpenClaw (large) both implement a feature, start with NanoClaw's approach.\n";
+  md += "3. **Keep it modular** - Use ZeroClaw/IronClaw's trait-based pattern so components can be swapped later.\n";
+  md += "4. **Security by default** - Apply sandboxing, command blocklists, and pairing codes from the start.\n";
+  md += "5. **Full deep-dive reference** - See `FRAMEWORK-DEEP-DIVE.md` for complete architectural analysis of all 9 repos.\n\n";
+  md += "---\n\n";
+  md += "*Generated from the AI Agent Framework Grocery Store comparison tool.*\n";
+
+  const blob = new Blob([md], {type:'text/markdown'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'my-framework-ingredients.md';
+  a.click(); URL.revokeObjectURL(url);
+}
+
+function scrollToSection(id) {
+  document.getElementById(id).scrollIntoView({behavior:'smooth'});
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  event.target.classList.add('active');
+}
+
+function filterCategory(cat, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.aisle').forEach(a => {
+    a.style.display = (cat === 'all' || a.dataset.category === cat) ? 'block' : 'none';
+  });
+}
+
+function filterItems(query) {
+  const q = query.toLowerCase();
+  document.querySelectorAll('.item-card').forEach(card => {
+    const text = (card.querySelector('.item-name').textContent + ' ' + card.querySelector('.item-desc').textContent).toLowerCase();
+    card.style.display = text.includes(q) ? 'block' : 'none';
+  });
+  // Show all aisles when searching
+  if (q) {
+    document.querySelectorAll('.aisle').forEach(a => a.style.display = 'block');
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.filter-btn')[0].classList.add('active');
+  }
+}
+</script>
+
+</body>
+</html>
