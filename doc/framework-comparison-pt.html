@@ -180,6 +180,10 @@
   .source-ironclaw { background:rgba(120,144,156,0.15); color:#b0bec5; }
   .source-tinyclaw { background:rgba(171,71,188,0.15); color:#e1bee7; }
   .source-agentzero { background:rgba(102,187,106,0.15); color:#a5d6a7; }
+  .source-openrouter { background:rgba(0,212,170,0.15); color:#00d4aa; }
+  .source-falai { background:rgba(255,107,157,0.15); color:#ff6b9d; }
+  .source-kieai { background:rgba(108,99,255,0.15); color:#a5a0ff; }
+  .source-antidote { background:rgba(0,210,106,0.15); color:#00d26a; }
 
   /* Scrollbar */
   ::-webkit-scrollbar { width:6px; height:6px; }
@@ -769,13 +773,28 @@
         </div>
         <div class="item-card" data-name="Multi-Provider Failover" onclick="toggleItem(this)">
           <div class="item-name">Failover Multi-Provedor de IA</div>
-          <div class="item-desc">Se o Claude cair, alterne automaticamente para o GPT. Se o GPT estiver lento, tente o Gemini. Nunca perca o serviço.</div>
-          <div class="item-sources"><span class="item-source source-ironclaw">IronClaw</span><span class="item-source source-openclaw">OpenClaw</span><span class="item-source source-zeroclaw">ZeroClaw</span></div>
+          <div class="item-desc">Se o Claude cair, alterne automaticamente para o GPT. Se o GPT estiver lento, tente o Gemini ou OpenRouter. Com OpenRouter você tem 100+ modelos como fallback automático em uma única chave. Nunca perca o serviço.</div>
+          <div class="item-sources"><span class="item-source source-ironclaw">IronClaw</span><span class="item-source source-openclaw">OpenClaw</span><span class="item-source source-zeroclaw">ZeroClaw</span><span class="item-source source-openrouter">OpenRouter</span></div>
+        </div>
+        <div class="item-card" data-name="OpenRouter 100+ Models" onclick="toggleItem(this)">
+          <div class="item-name">OpenRouter — 100+ Modelos, 1 Chave</div>
+          <div class="item-desc">Acesse Claude, GPT-4, Gemini, Mistral, DeepSeek, Llama e mais de 100 modelos com uma única chave de API. Troque de modelo sem mudar o código. Ideal como provider principal com Ollama como fallback local.</div>
+          <div class="item-sources"><span class="item-source source-openrouter">OpenRouter</span><span class="item-source source-antidote">Antidote</span><span class="item-source source-nanobot">NanoBot</span></div>
+        </div>
+        <div class="item-card" data-name="Multi-Model Selection" onclick="toggleItem(this)">
+          <div class="item-name">Seleção de Modelo por Tarefa</div>
+          <div class="item-desc">Use Claude Sonnet para raciocínio complexo, Haiku para respostas rápidas e baratas, DeepSeek R1 para análise de código. Cada tipo de tarefa usa o modelo mais eficiente — controle total de custo e qualidade.</div>
+          <div class="item-sources"><span class="item-source source-openrouter">OpenRouter</span><span class="item-source source-zeroclaw">ZeroClaw</span><span class="item-source source-ironclaw">IronClaw</span><span class="item-source source-agentzero">Agent Zero</span></div>
         </div>
         <div class="item-card" data-name="Local LLM Support" onclick="toggleItem(this)">
           <div class="item-name">Suporte a LLM Local (Ollama)</div>
-          <div class="item-desc">Execute modelos de IA no seu próprio computador. Zero custo de API. Privacidade total. Sem necessidade de internet.</div>
-          <div class="item-sources"><span class="item-source source-openclaw">OpenClaw</span><span class="item-source source-zeroclaw">ZeroClaw</span><span class="item-source source-picoclaw">PicoClaw</span><span class="item-source source-agentzero">Agent Zero</span><span class="item-source source-nanobot">NanoBot</span></div>
+          <div class="item-desc">Execute modelos de IA no seu próprio computador. Zero custo de API. Privacidade total. Sem necessidade de internet. Use junto com OpenRouter: nuvem quando precisa de potência, local quando precisa de privacidade.</div>
+          <div class="item-sources"><span class="item-source source-openclaw">OpenClaw</span><span class="item-source source-zeroclaw">ZeroClaw</span><span class="item-source source-picoclaw">PicoClaw</span><span class="item-source source-agentzero">Agent Zero</span><span class="item-source source-nanobot">NanoBot</span><span class="item-source source-antidote">Antidote</span></div>
+        </div>
+        <div class="item-card" data-name="Specialized Media Providers" onclick="toggleItem(this)">
+          <div class="item-name">Provedores de Mídia Especializada (fal.ai, Kie.ai)</div>
+          <div class="item-desc">Para imagem, som e vídeo use provedores especializados: fal.ai (geração de imagem ultrarrápida, Flux, SDXL, vídeo com Kling/CogVideoX), Kie.ai (vídeo e áudio de alta qualidade). LLMs de texto são fracos em mídia — esses provedores são a escolha certa para criação de conteúdo.</div>
+          <div class="item-sources"><span class="item-source source-falai">fal.ai</span><span class="item-source source-kieai">Kie.ai</span><span class="item-source source-openclaw">OpenClaw</span></div>
         </div>
         <div class="item-card" data-name="Hardware IoT Control" onclick="toggleItem(this)">
           <div class="item-name">Controle de Hardware / IoT</div>
